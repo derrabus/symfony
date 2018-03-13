@@ -12,7 +12,6 @@
 namespace Symfony\Component\HttpKernel\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
@@ -54,8 +53,8 @@ class HttpKernelTest extends TestCase
     public function testHandleWhenControllerThrowsAnExceptionAndCatchIsTrueWithAHandlingListener()
     {
         $dispatcher = new EventDispatcher();
-        $dispatcher->addListener(KernelEvents::EXCEPTION, function ($event) {
-            $event->setResponse(new Response($event->getException()->getMessage()));
+        $dispatcher->addListener(KernelEvents::EXCEPTION, function (GetResponseForExceptionEvent $event) {
+            $event->setResponse(new Response($event->getThrowable()->getMessage()));
         });
 
         $kernel = $this->getHttpKernel($dispatcher, function () { throw new \RuntimeException('foo'); });
@@ -101,8 +100,8 @@ class HttpKernelTest extends TestCase
     public function testHandleHttpException()
     {
         $dispatcher = new EventDispatcher();
-        $dispatcher->addListener(KernelEvents::EXCEPTION, function ($event) {
-            $event->setResponse(new Response($event->getException()->getMessage()));
+        $dispatcher->addListener(KernelEvents::EXCEPTION, function (GetResponseForExceptionEvent $event) {
+            $event->setResponse(new Response($event->getThrowable()->getMessage()));
         });
 
         $kernel = $this->getHttpKernel($dispatcher, function () { throw new MethodNotAllowedHttpException(array('POST')); });
@@ -135,7 +134,7 @@ class HttpKernelTest extends TestCase
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener(KernelEvents::EXCEPTION, function (GetResponseForExceptionEvent $event) use ($expectedException) {
-            $event->setException($expectedException);
+            $event->setThrowable($expectedException);
         });
 
         $kernel = $this->getHttpKernel($dispatcher, function () {
@@ -155,8 +154,8 @@ class HttpKernelTest extends TestCase
     {
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener(KernelEvents::EXCEPTION, function (GetResponseForExceptionEvent $event) {
-            $this->assertInstanceOf(FatalThrowableError::class, $event->getException());
-            $event->setResponse(new Response($event->getException()->getMessage()));
+            $this->assertInstanceOf(\DivisionByZeroError::class, $event->getThrowable());
+            $event->setResponse(new Response($event->getThrowable()->getMessage()));
         });
 
         $kernel = $this->getHttpKernel($dispatcher, function () {
@@ -172,7 +171,7 @@ class HttpKernelTest extends TestCase
     {
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener(KernelEvents::EXCEPTION, function (GetResponseForExceptionEvent $event) {
-            $event->setResponse(new Response($event->getException()->getMessage()));
+            $event->setResponse(new Response($event->getThrowable()->getMessage()));
         });
         $dispatcher->addListener(KernelEvents::RESPONSE, function () {
             throw new \RuntimeException('Ouch');
@@ -191,7 +190,7 @@ class HttpKernelTest extends TestCase
     {
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener(KernelEvents::EXCEPTION, function (GetResponseForExceptionEvent $event) {
-            $event->setResponse(new Response($event->getException()->getMessage()));
+            $event->setResponse(new Response($event->getThrowable()->getMessage()));
         });
         $dispatcher->addListener(KernelEvents::RESPONSE, function () {
             throw new \DivisionByZeroError('Ouch');

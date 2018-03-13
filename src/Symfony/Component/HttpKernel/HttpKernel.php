@@ -214,14 +214,11 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     private function handleThrowable(\Throwable $e, Request $request, int $type): Response
     {
-        $eventException = $e instanceof \Exception ? $e : new FatalThrowableError($e);
-
-        $event = new GetResponseForExceptionEvent($this, $request, $type, $eventException);
+        $event = new GetResponseForExceptionEvent($this, $request, $type, $e);
         $this->dispatcher->dispatch(KernelEvents::EXCEPTION, $event);
 
-        // a listener might have replaced the exception
-        $processedException = $event->getException();
-        $e = $eventException === $processedException ? $e : $processedException;
+        // a listener might have replaced the throwable
+        $e = $event->getThrowable();
 
         if (!$event->hasResponse()) {
             $this->finishRequest($request, $type);

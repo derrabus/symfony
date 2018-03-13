@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
@@ -63,7 +64,8 @@ class ProfilerListener implements EventSubscriberInterface
             return;
         }
 
-        $this->exception = $event->getException();
+        $throwable = $event->getThrowable();
+        $this->exception = $throwable instanceof \Exception ? $throwable : new FatalThrowableError($throwable);
     }
 
     /**

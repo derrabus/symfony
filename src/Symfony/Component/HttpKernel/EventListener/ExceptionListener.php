@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpKernel\EventListener;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,16 +44,18 @@ class ExceptionListener implements EventSubscriberInterface
 
     public function logKernelException(GetResponseForExceptionEvent $event)
     {
-        $exception = $event->getException();
-        $request = $event->getRequest();
+        $exception = $event->getThrowable();
+        if (!$exception instanceof \Exception) {
+            $exception = new FatalThrowableError($exception);
+        }
 
         $this->logException($exception, sprintf('Uncaught PHP Exception %s: "%s" at %s line %s', get_class($exception), $exception->getMessage(), $exception->getFile(), $exception->getLine()));
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $exception = $event->getException();
-        $request = $this->duplicateRequest($exception, $event->getRequest());
+        $throwable = $event->getThrowable();
+        $request = $this->duplicateRequest($throwable instanceof \Exception ? $throwable : new FatalThrowableError($throwable), $event->getRequest());
         $eventDispatcher = func_num_args() > 2 ? func_get_arg(2) : null;
 
         try {
@@ -63,14 +66,14 @@ class ExceptionListener implements EventSubscriberInterface
             $wrapper = $e;
 
             while ($prev = $wrapper->getPrevious()) {
-                if ($exception === $wrapper = $prev) {
+                if ($throwable === $wrapper = $prev) {
                     throw $e;
                 }
             }
 
             $prev = new \ReflectionProperty('Exception', 'previous');
             $prev->setAccessible(true);
-            $prev->setValue($wrapper, $exception);
+            $prev->setValue($wrapper, $throwable);
 
             throw $e;
         }
