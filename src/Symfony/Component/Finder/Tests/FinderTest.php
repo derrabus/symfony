@@ -283,7 +283,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
     /**
      * @dataProvider getRegexNameTestData
      */
-    public function testRegexName($regex)
+    public function testRegexName(string $regex)
     {
         $finder = $this->buildFinder();
         $finder->name($regex);
@@ -1133,7 +1133,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
     /**
      * @dataProvider getContainsTestData
      */
-    public function testContains($matchPatterns, $noMatchPatterns, $expected)
+    public function testContains($matchPatterns, $noMatchPatterns, array $expected)
     {
         $finder = $this->buildFinder();
         $finder->in(__DIR__.\DIRECTORY_SEPARATOR.'Fixtures')
@@ -1235,7 +1235,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
         $this->assertIterator($this->toAbsoluteFixtures($expected), $finder);
     }
 
-    public function getContainsTestData()
+    public function getContainsTestData(): array
     {
         return [
             ['', '', []],
@@ -1253,7 +1253,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
         ];
     }
 
-    public function getRegexNameTestData()
+    public function getRegexNameTestData(): array
     {
         return [
             ['~.*t\\.p.+~i'],
@@ -1274,7 +1274,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
         $this->assertIterator($this->toAbsoluteFixtures($expected), $finder);
     }
 
-    public function getTestPathData()
+    public function getTestPathData(): array
     {
         return [
             ['', '', []],
@@ -1431,7 +1431,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
         $finderChild->sortByName();
     }
 
-    protected function buildFinder()
+    private function buildFinder(): Finder
     {
         return Finder::create();
     }

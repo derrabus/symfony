@@ -24,7 +24,7 @@ class CustomFilterIteratorTest extends IteratorTestCase
     /**
      * @dataProvider getAcceptData
      */
-    public function testAccept($filters, $expected)
+    public function testAccept(array $filters, array $expected)
     {
         $inner = new Iterator(['test.php', 'test.py', 'foo.php']);
 
@@ -33,7 +33,7 @@ class CustomFilterIteratorTest extends IteratorTestCase
         $this->assertIterator($expected, $iterator);
     }
 
-    public function getAcceptData()
+    public function getAcceptData(): array
     {
         return [
             [[function (\SplFileInfo $fileinfo) { return false; }], []],

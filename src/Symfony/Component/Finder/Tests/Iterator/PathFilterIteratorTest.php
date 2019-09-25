@@ -24,7 +24,7 @@ class PathFilterIteratorTest extends IteratorTestCase
         $this->assertIterator($resultArray, $iterator);
     }
 
-    public function getTestFilterData()
+    public function getTestFilterData(): array
     {
         $inner = new MockFileListIterator();
 

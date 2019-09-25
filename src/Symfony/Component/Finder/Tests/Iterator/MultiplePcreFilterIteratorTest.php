@@ -19,13 +19,13 @@ class MultiplePcreFilterIteratorTest extends TestCase
     /**
      * @dataProvider getIsRegexFixtures
      */
-    public function testIsRegex($string, $isRegex, $message)
+    public function testIsRegex(string $string, bool $isRegex, string $message)
     {
         $testIterator = new TestMultiplePcreFilterIterator();
         $this->assertEquals($isRegex, $testIterator->isRegex($string), $message);
     }
 
-    public function getIsRegexFixtures()
+    public function getIsRegexFixtures(): array
     {
         return [
             ['foo', false, 'string'],

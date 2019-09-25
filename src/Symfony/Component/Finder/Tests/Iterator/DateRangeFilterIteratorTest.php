@@ -19,7 +19,7 @@ class DateRangeFilterIteratorTest extends RealIteratorTestCase
     /**
      * @dataProvider getAcceptData
      */
-    public function testAccept($size, $expected)
+    public function testAccept(array $size, array $expected)
     {
         $files = self::$files;
         $files[] = self::toAbsolute('doesnotexist');
@@ -30,7 +30,7 @@ class DateRangeFilterIteratorTest extends RealIteratorTestCase
         $this->assertIterator($expected, $iterator);
     }
 
-    public function getAcceptData()
+    public function getAcceptData(): array
     {
         $since20YearsAgo = [
             '.git',

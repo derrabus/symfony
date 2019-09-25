@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class IteratorTestCase extends TestCase
 {
-    protected function assertIterator($expected, \Traversable $iterator)
+    protected function assertIterator(array $expected, \Traversable $iterator)
     {
         // set iterator_to_array $use_key to false to avoid values merge
         // this made FinderTest::testAppendWithAnArray() fail with GnuFinderAdapter
@@ -29,7 +29,7 @@ abstract class IteratorTestCase extends TestCase
         $this->assertEquals($expected, array_values($values));
     }
 
-    protected function assertOrderedIterator($expected, \Traversable $iterator)
+    protected function assertOrderedIterator(array $expected, \Traversable $iterator)
     {
         $values = array_map(function (\SplFileInfo $fileinfo) { return $fileinfo->getPathname(); }, iterator_to_array($iterator));
 

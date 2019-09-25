@@ -118,7 +118,7 @@ abstract class RealIteratorTestCase extends IteratorTestCase
         return self::$tmpDir;
     }
 
-    protected static function toAbsoluteFixtures($files)
+    protected static function toAbsoluteFixtures(array $files): array
     {
         $f = [];
         foreach ($files as $file) {

@@ -41,7 +41,7 @@ class ComparatorTest extends TestCase
     /**
      * @dataProvider getTestData
      */
-    public function testTest($operator, $target, $match, $noMatch)
+    public function testTest(string $operator, string $target, array $match, array $noMatch)
     {
         $c = new Comparator();
         $c->setOperator($operator);
@@ -56,7 +56,7 @@ class ComparatorTest extends TestCase
         }
     }
 
-    public function getTestData()
+    public function getTestData(): array
     {
         return [
             ['<', '1000', ['500', '999'], ['1000', '1500']],

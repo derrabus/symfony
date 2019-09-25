@@ -48,7 +48,7 @@ class MockSplFileInfo extends \SplFileInfo
         }
     }
 
-    public function isFile()
+    public function isFile(): bool
     {
         if (null === $this->type) {
             return false !== strpos($this->getFilename(), 'file');
@@ -57,7 +57,7 @@ class MockSplFileInfo extends \SplFileInfo
         return self::TYPE_FILE === $this->type;
     }
 
-    public function isDir()
+    public function isDir(): bool
     {
         if (null === $this->type) {
             return false !== strpos($this->getFilename(), 'directory');
@@ -66,7 +66,7 @@ class MockSplFileInfo extends \SplFileInfo
         return self::TYPE_DIRECTORY === $this->type;
     }
 
-    public function isReadable()
+    public function isReadable(): bool
     {
         if (null === $this->mode) {
             return preg_match('/r\+/', $this->getFilename());
@@ -75,22 +75,22 @@ class MockSplFileInfo extends \SplFileInfo
         return preg_match('/r\+/', $this->mode);
     }
 
-    public function getContents()
+    public function getContents(): ?string
     {
         return $this->contents;
     }
 
-    public function setContents($contents)
+    public function setContents(?string $contents)
     {
         $this->contents = $contents;
     }
 
-    public function setMode($mode)
+    public function setMode(?string $mode)
     {
         $this->mode = $mode;
     }
 
-    public function setType($type)
+    public function setType(?string $type)
     {
         if (\is_string($type)) {
             switch ($type) {
@@ -110,22 +110,22 @@ class MockSplFileInfo extends \SplFileInfo
         }
     }
 
-    public function setRelativePath($relativePath)
+    public function setRelativePath(?string $relativePath)
     {
         $this->relativePath = $relativePath;
     }
 
-    public function setRelativePathname($relativePathname)
+    public function setRelativePathname(?string $relativePathname)
     {
         $this->relativePathname = $relativePathname;
     }
 
-    public function getRelativePath()
+    public function getRelativePath(): ?string
     {
         return $this->relativePath;
     }
 
-    public function getRelativePathname()
+    public function getRelativePathname(): ?string
     {
         return $this->relativePathname;
     }

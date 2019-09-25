@@ -28,7 +28,7 @@ class SortableIteratorTest extends RealIteratorTestCase
     /**
      * @dataProvider getAcceptData
      */
-    public function testAccept($mode, $expected)
+    public function testAccept($mode, array $expected)
     {
         if (!\is_callable($mode)) {
             switch ($mode) {
@@ -67,7 +67,7 @@ class SortableIteratorTest extends RealIteratorTestCase
         }
     }
 
-    public function getAcceptData()
+    public function getAcceptData(): array
     {
         $sortByName = [
             '.bar',
