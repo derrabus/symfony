@@ -27,14 +27,14 @@ class StaticVersionStrategyTest extends TestCase
     /**
      * @dataProvider getConfigs
      */
-    public function testApplyVersion($path, $version, $format)
+    public function testApplyVersion(string $path, string $version, ?string $format)
     {
         $staticVersionStrategy = new StaticVersionStrategy($version, $format);
         $formatted = sprintf($format ?: '%s?%s', $path, $version);
         $this->assertEquals($formatted, $staticVersionStrategy->applyVersion($path));
     }
 
-    public function getConfigs()
+    public function getConfigs(): array
     {
         return [
             ['test-path', 'v1', null],

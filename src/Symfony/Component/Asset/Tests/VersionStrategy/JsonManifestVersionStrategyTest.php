@@ -52,7 +52,7 @@ class JsonManifestVersionStrategyTest extends TestCase
         $strategy->getVersion('main.js');
     }
 
-    private function createStrategy($manifestFilename)
+    private function createStrategy(string $manifestFilename): JsonManifestVersionStrategy
     {
         return new JsonManifestVersionStrategy(__DIR__.'/../fixtures/'.$manifestFilename);
     }

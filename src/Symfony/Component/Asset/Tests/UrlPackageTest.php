@@ -12,6 +12,7 @@
 namespace Symfony\Component\Asset\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Asset\Context\ContextInterface;
 use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
@@ -21,13 +22,13 @@ class UrlPackageTest extends TestCase
     /**
      * @dataProvider getConfigs
      */
-    public function testGetUrl($baseUrls, $format, $path, $expected)
+    public function testGetUrl($baseUrls, ?string $format, string $path, string $expected)
     {
         $package = new UrlPackage($baseUrls, new StaticVersionStrategy('v1', $format));
         $this->assertEquals($expected, $package->getUrl($path));
     }
 
-    public function getConfigs()
+    public function getConfigs(): array
     {
         return [
             ['http://example.net', '', 'http://example.com/foo', 'http://example.com/foo'],
@@ -61,14 +62,14 @@ class UrlPackageTest extends TestCase
     /**
      * @dataProvider getContextConfigs
      */
-    public function testGetUrlWithContext($secure, $baseUrls, $format, $path, $expected)
+    public function testGetUrlWithContext(bool $secure, $baseUrls, ?string $format, string $path, string $expected)
     {
         $package = new UrlPackage($baseUrls, new StaticVersionStrategy('v1', $format), $this->getContext($secure));
 
         $this->assertEquals($expected, $package->getUrl($path));
     }
 
-    public function getContextConfigs()
+    public function getContextConfigs(): array
     {
         return [
             [false, 'http://example.com', '', 'foo', 'http://example.com/foo?v1'],
@@ -110,7 +111,7 @@ class UrlPackageTest extends TestCase
         new UrlPackage($baseUrls, new EmptyVersionStrategy());
     }
 
-    public function getWrongBaseUrlConfig()
+    public function getWrongBaseUrlConfig(): array
     {
         return [
             ['not-a-url'],
@@ -118,7 +119,7 @@ class UrlPackageTest extends TestCase
         ];
     }
 
-    private function getContext($secure)
+    private function getContext(bool $secure): ContextInterface
     {
         $context = $this->getMockBuilder('Symfony\Component\Asset\Context\ContextInterface')->getMock();
         $context->expects($this->any())->method('isSecure')->willReturn($secure);

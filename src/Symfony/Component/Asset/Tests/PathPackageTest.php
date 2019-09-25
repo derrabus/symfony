@@ -12,6 +12,7 @@
 namespace Symfony\Component\Asset\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Asset\Context\ContextInterface;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 
@@ -20,13 +21,13 @@ class PathPackageTest extends TestCase
     /**
      * @dataProvider getConfigs
      */
-    public function testGetUrl($basePath, $format, $path, $expected)
+    public function testGetUrl(string $basePath, string $format, string $path, string $expected)
     {
         $package = new PathPackage($basePath, new StaticVersionStrategy('v1', $format));
         $this->assertEquals($expected, $package->getUrl($path));
     }
 
-    public function getConfigs()
+    public function getConfigs(): array
     {
         return [
             ['/foo', '', 'http://example.com/foo', 'http://example.com/foo'],
@@ -51,14 +52,14 @@ class PathPackageTest extends TestCase
     /**
      * @dataProvider getContextConfigs
      */
-    public function testGetUrlWithContext($basePathRequest, $basePath, $format, $path, $expected)
+    public function testGetUrlWithContext(string $basePathRequest, string $basePath, string $format, string $path, string $expected)
     {
         $package = new PathPackage($basePath, new StaticVersionStrategy('v1', $format), $this->getContext($basePathRequest));
 
         $this->assertEquals($expected, $package->getUrl($path));
     }
 
-    public function getContextConfigs()
+    public function getContextConfigs(): array
     {
         return [
             ['', '/foo', '', '/baz', '/baz?v1'],
@@ -86,7 +87,7 @@ class PathPackageTest extends TestCase
         $this->assertEquals('https://cdn.com/bar/main.css', $package->getUrl('main.css'));
     }
 
-    private function getContext($basePath)
+    private function getContext(string $basePath): ContextInterface
     {
         $context = $this->getMockBuilder('Symfony\Component\Asset\Context\ContextInterface')->getMock();
         $context->expects($this->any())->method('getBasePath')->willReturn($basePath);
