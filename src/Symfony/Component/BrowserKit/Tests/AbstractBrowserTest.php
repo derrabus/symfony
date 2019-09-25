@@ -616,7 +616,7 @@ class AbstractBrowserTest extends TestCase
         $this->assertEquals($expectedEndingUrl, $client->getRequest()->getUri());
     }
 
-    public function getTestsForMetaRefresh()
+    public function getTestsForMetaRefresh(): array
     {
         return [
             ['<html><head><meta http-equiv="Refresh" content="4" /><meta http-equiv="refresh" content="0; URL=http://www.example.com/redirected"/></head></html>', 'http://www.example.com/redirected'],
