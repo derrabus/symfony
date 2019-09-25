@@ -44,7 +44,7 @@ class ClassNotFoundFatalErrorHandlerTest extends TestCase
     /**
      * @dataProvider provideClassNotFoundData
      */
-    public function testHandleClassNotFound($error, $translatedMessage, $autoloader = null)
+    public function testHandleClassNotFound(array $error, string $translatedMessage, callable $autoloader = null)
     {
         if ($autoloader) {
             // Unregister all autoloaders to ensure the custom provided
@@ -70,7 +70,7 @@ class ClassNotFoundFatalErrorHandlerTest extends TestCase
         $this->assertSame($error['line'], $exception->getLine());
     }
 
-    public function provideClassNotFoundData()
+    public function provideClassNotFoundData(): array
     {
         $autoloader = new ComposerClassLoader();
         $autoloader->add('Symfony\Component\Debug\Exception\\', realpath(__DIR__.'/../../Exception'));

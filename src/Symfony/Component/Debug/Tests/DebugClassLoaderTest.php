@@ -121,7 +121,7 @@ class DebugClassLoaderTest extends TestCase
     /**
      * @dataProvider provideDeprecatedSuper
      */
-    public function testDeprecatedSuper($class, $super, $type)
+    public function testDeprecatedSuper(string $class, string $super, string $type)
     {
         set_error_handler(function () { return false; });
         $e = error_reporting(0);
@@ -143,7 +143,7 @@ class DebugClassLoaderTest extends TestCase
         $this->assertSame($xError, $lastError);
     }
 
-    public function provideDeprecatedSuper()
+    public function provideDeprecatedSuper(): array
     {
         return [
             ['DeprecatedInterfaceClass', 'DeprecatedInterface', 'implements'],

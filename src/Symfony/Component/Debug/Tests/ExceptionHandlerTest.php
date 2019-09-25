@@ -170,7 +170,7 @@ content="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"
         $this->assertThatTheExceptionWasOutput(ob_get_clean(), OutOfMemoryException::class, 'OutOfMemoryException', 'foo');
     }
 
-    private function assertThatTheExceptionWasOutput($content, $expectedClass, $expectedTitle, $expectedMessage)
+    private function assertThatTheExceptionWasOutput(string $content, string $expectedClass, string $expectedTitle, string $expectedMessage)
     {
         $this->assertStringContainsString(sprintf('<span class="exception_title"><abbr title="%s">%s</abbr></span>', $expectedClass, $expectedTitle), $content);
         $this->assertStringContainsString(sprintf('<p class="break-long-words trace-message">%s</p>', $expectedMessage), $content);
