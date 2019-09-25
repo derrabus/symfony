@@ -26,7 +26,7 @@ class ScalarNodeTest extends TestCase
         $this->assertSame($value, $node->normalize($value));
     }
 
-    public function getValidValues()
+    public function getValidValues(): array
     {
         return [
             [false],
@@ -82,7 +82,7 @@ class ScalarNodeTest extends TestCase
         $node->normalize($value);
     }
 
-    public function getInvalidValues()
+    public function getInvalidValues(): array
     {
         return [
             [[]],
@@ -125,7 +125,7 @@ class ScalarNodeTest extends TestCase
         $this->assertSame($value, $node->finalize($value));
     }
 
-    public function getValidNonEmptyValues()
+    public function getValidNonEmptyValues(): array
     {
         return [
             [false],
@@ -151,7 +151,7 @@ class ScalarNodeTest extends TestCase
         $node->finalize($value);
     }
 
-    public function getEmptyValues()
+    public function getEmptyValues(): array
     {
         return [
             [null],

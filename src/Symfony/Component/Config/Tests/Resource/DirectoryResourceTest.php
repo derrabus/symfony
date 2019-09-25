@@ -35,7 +35,7 @@ class DirectoryResourceTest extends TestCase
         $this->removeDirectory($this->directory);
     }
 
-    protected function removeDirectory($directory)
+    private function removeDirectory(string $directory)
     {
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory), \RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($iterator as $path) {

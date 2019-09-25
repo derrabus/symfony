@@ -19,7 +19,7 @@ class FileLocatorTest extends TestCase
     /**
      * @dataProvider getIsAbsolutePathTests
      */
-    public function testIsAbsolutePath($path)
+    public function testIsAbsolutePath(string $path)
     {
         $loader = new FileLocator([]);
         $r = new \ReflectionObject($loader);
@@ -29,7 +29,7 @@ class FileLocatorTest extends TestCase
         $this->assertTrue($m->invoke($loader, $path), '->isAbsolutePath() returns true for an absolute path');
     }
 
-    public function getIsAbsolutePathTests()
+    public function getIsAbsolutePathTests(): array
     {
         return [
             ['/foo.xml'],

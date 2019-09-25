@@ -13,6 +13,7 @@ namespace Symfony\Component\Config\Tests\Definition\Builder;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\ExprBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class ExprBuilderTest extends TestCase
@@ -149,7 +150,7 @@ class ExprBuilderTest extends TestCase
     /**
      * @dataProvider castToArrayValues
      */
-    public function testcastToArrayExpression($configValue, $expectedValue)
+    public function testcastToArrayExpression($configValue, array $expectedValue)
     {
         $test = $this->getTestBuilder()
             ->castToArray()
@@ -157,7 +158,7 @@ class ExprBuilderTest extends TestCase
         $this->assertFinalizedValueIs($expectedValue, $test, ['key' => $configValue]);
     }
 
-    public function castToArrayValues()
+    public function castToArrayValues(): iterable
     {
         yield ['value', ['value']];
         yield [-3.14, [-3.14]];
@@ -218,15 +219,14 @@ class ExprBuilderTest extends TestCase
     /**
      * Close the validation process and finalize with the given config.
      *
-     * @param TreeBuilder $testBuilder The tree builder to finalize
-     * @param array       $config      The config you want to use for the finalization, if nothing provided
-     *                                 a simple ['key'=>'value'] will be used
+     * @param array $config The config you want to use for the finalization, if nothing provided
+     *                      a simple ['key'=>'value'] will be used
      *
      * @return array The finalized config values
      */
-    protected function finalizeTestBuilder($testBuilder, $config = null): array
+    protected function finalizeTestBuilder(NodeDefinition $nodeDefinition, array $config = null): array
     {
-        return $testBuilder
+        return $nodeDefinition
             ->end()
             ->end()
             ->end()
@@ -250,12 +250,10 @@ class ExprBuilderTest extends TestCase
     /**
      * Assert that the given test builder, will return the given value.
      *
-     * @param mixed       $value       The value to test
-     * @param TreeBuilder $treeBuilder The tree builder to finalize
-     * @param mixed       $config      The config values that new to be finalized
+     * @param mixed $value The value to test
      */
-    protected function assertFinalizedValueIs($value, $treeBuilder, $config = null)
+    protected function assertFinalizedValueIs($value, NodeDefinition $nodeDefinition, array $config = null)
     {
-        $this->assertEquals(['key' => $value], $this->finalizeTestBuilder($treeBuilder, $config));
+        $this->assertEquals(['key' => $value], $this->finalizeTestBuilder($nodeDefinition, $config));
     }
 }

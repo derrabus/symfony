@@ -167,7 +167,7 @@ class PrototypedArrayNodeTest extends TestCase
         $this->assertEquals([['foo' => 'bar']], $node->getDefaultValue());
     }
 
-    protected function getPrototypeNodeWithDefaultChildren()
+    private function getPrototypeNodeWithDefaultChildren(): PrototypedArrayNode
     {
         $node = new PrototypedArrayNode('root');
         $prototype = new ArrayNode(null, $node);
@@ -280,7 +280,7 @@ class PrototypedArrayNodeTest extends TestCase
         $this->assertEquals($expected, $normalized);
     }
 
-    public function getDataForKeyRemovedLeftValueOnly()
+    public function getDataForKeyRemovedLeftValueOnly(): array
     {
         $scalarValue = new ScalarNode('value');
 

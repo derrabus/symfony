@@ -40,7 +40,7 @@ class ArrayNodeDefinitionTest extends TestCase
     /**
      * @dataProvider providePrototypeNodeSpecificCalls
      */
-    public function testPrototypeNodeSpecificOption($method, $args)
+    public function testPrototypeNodeSpecificOption(string $method, array $args)
     {
         $this->expectException('Symfony\Component\Config\Definition\Exception\InvalidDefinitionException');
         $node = new ArrayNodeDefinition('root');
@@ -50,7 +50,7 @@ class ArrayNodeDefinitionTest extends TestCase
         $node->getNode();
     }
 
-    public function providePrototypeNodeSpecificCalls()
+    public function providePrototypeNodeSpecificCalls(): array
     {
         return [
             ['defaultValue', [[]]],
@@ -98,7 +98,7 @@ class ArrayNodeDefinitionTest extends TestCase
     /**
      * @dataProvider providePrototypedArrayNodeDefaults
      */
-    public function testPrototypedArrayNodeDefault($args, $shouldThrowWhenUsingAttrAsKey, $shouldThrowWhenNotUsingAttrAsKey, $defaults)
+    public function testPrototypedArrayNodeDefault($args, bool $shouldThrowWhenUsingAttrAsKey, bool $shouldThrowWhenNotUsingAttrAsKey, array $defaults)
     {
         $node = new ArrayNodeDefinition('root');
         $node
@@ -130,7 +130,7 @@ class ArrayNodeDefinitionTest extends TestCase
         }
     }
 
-    public function providePrototypedArrayNodeDefaults()
+    public function providePrototypedArrayNodeDefaults(): array
     {
         return [
             [null, true, false, [[]]],

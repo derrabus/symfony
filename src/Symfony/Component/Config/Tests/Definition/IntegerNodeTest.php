@@ -19,7 +19,7 @@ class IntegerNodeTest extends TestCase
     /**
      * @dataProvider getValidValues
      */
-    public function testNormalize($value)
+    public function testNormalize(int $value)
     {
         $node = new IntegerNode('test');
         $this->assertSame($value, $node->normalize($value));
@@ -27,10 +27,8 @@ class IntegerNodeTest extends TestCase
 
     /**
      * @dataProvider getValidValues
-     *
-     * @param int $value
      */
-    public function testValidNonEmptyValues($value)
+    public function testValidNonEmptyValues(int $value)
     {
         $node = new IntegerNode('test');
         $node->setAllowEmptyValue(false);
@@ -38,7 +36,7 @@ class IntegerNodeTest extends TestCase
         $this->assertSame($value, $node->finalize($value));
     }
 
-    public function getValidValues()
+    public function getValidValues(): array
     {
         return [
             [1798],
@@ -57,7 +55,7 @@ class IntegerNodeTest extends TestCase
         $node->normalize($value);
     }
 
-    public function getInvalidValues()
+    public function getInvalidValues(): array
     {
         return [
             [null],

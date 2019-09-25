@@ -206,7 +206,7 @@ class NormalizationTest extends TestCase
         self::assertSame($normalized, $tree->normalize($denormalized));
     }
 
-    private function getNumericKeysTestTree()
+    private function getNumericKeysTestTree(): NodeInterface
     {
         $tb = new TreeBuilder('root', 'array');
         $tree = $tb
