@@ -92,10 +92,9 @@ class FilesystemTestCase extends TestCase
     }
 
     /**
-     * @param int    $expectedFilePerms Expected file permissions as three digits (i.e. 755)
-     * @param string $filePath
+     * @param int $expectedFilePerms Expected file permissions as three digits (i.e. 755)
      */
-    protected function assertFilePermissions($expectedFilePerms, $filePath)
+    protected function assertFilePermissions(int $expectedFilePerms, string $filePath)
     {
         $actualFilePerms = (int) substr(sprintf('%o', fileperms($filePath)), -3);
         $this->assertEquals(
@@ -105,7 +104,7 @@ class FilesystemTestCase extends TestCase
         );
     }
 
-    protected function getFileOwner($filepath)
+    protected function getFileOwner(string $filepath): ?string
     {
         $this->markAsSkippedIfPosixIsMissing();
 
@@ -114,7 +113,7 @@ class FilesystemTestCase extends TestCase
         return ($datas = posix_getpwuid($infos['uid'])) ? $datas['name'] : null;
     }
 
-    protected function getFileGroup($filepath)
+    protected function getFileGroup(string $filepath): ?string
     {
         $this->markAsSkippedIfPosixIsMissing();
 
@@ -137,7 +136,7 @@ class FilesystemTestCase extends TestCase
         }
     }
 
-    protected function markAsSkippedIfSymlinkIsMissing($relative = false)
+    protected function markAsSkippedIfSymlinkIsMissing(bool $relative = false)
     {
         if ('\\' === \DIRECTORY_SEPARATOR && false === self::$symlinkOnWindows) {
             $this->markTestSkipped('symlink requires "Create symbolic links" privilege on Windows');
