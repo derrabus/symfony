@@ -21,7 +21,7 @@ use Symfony\Component\CssSelector\Parser\Shortcut\ElementParser;
 class ElementParserTest extends TestCase
 {
     /** @dataProvider getParseTestData */
-    public function testParse($source, $representation)
+    public function testParse(string $source, string $representation)
     {
         $parser = new ElementParser();
         $selectors = $parser->parse($source);
@@ -32,7 +32,7 @@ class ElementParserTest extends TestCase
         $this->assertEquals($representation, (string) $selector->getTree());
     }
 
-    public function getParseTestData()
+    public function getParseTestData(): array
     {
         return [
             ['*', 'Element[*]'],

@@ -12,6 +12,7 @@
 namespace Symfony\Component\CssSelector\Tests\Parser\Handler;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\CssSelector\Parser\Handler\HandlerInterface;
 use Symfony\Component\CssSelector\Parser\Reader;
 use Symfony\Component\CssSelector\Parser\Token;
 use Symfony\Component\CssSelector\Parser\TokenStream;
@@ -22,7 +23,7 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
 abstract class AbstractHandlerTest extends TestCase
 {
     /** @dataProvider getHandleValueTestData */
-    public function testHandleValue($value, Token $expectedToken, $remainingContent)
+    public function testHandleValue(string $value, Token $expectedToken, string $remainingContent)
     {
         $reader = new Reader($value);
         $stream = new TokenStream();
@@ -43,11 +44,11 @@ abstract class AbstractHandlerTest extends TestCase
         $this->assertRemainingContent($reader, $value);
     }
 
-    abstract public function getHandleValueTestData();
+    abstract public function getHandleValueTestData(): array;
 
-    abstract public function getDontHandleValueTestData();
+    abstract public function getDontHandleValueTestData(): array;
 
-    abstract protected function generateHandler();
+    abstract protected function generateHandler(): HandlerInterface;
 
     protected function assertStreamEmpty(TokenStream $stream)
     {
@@ -57,7 +58,7 @@ abstract class AbstractHandlerTest extends TestCase
         $this->assertEquals([], $property->getValue($stream));
     }
 
-    protected function assertRemainingContent(Reader $reader, $remainingContent)
+    protected function assertRemainingContent(Reader $reader, string $remainingContent)
     {
         if ('' === $remainingContent) {
             $this->assertEquals(0, $reader->getRemainingLength());

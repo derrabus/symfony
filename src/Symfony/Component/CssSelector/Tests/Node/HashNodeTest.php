@@ -16,14 +16,14 @@ use Symfony\Component\CssSelector\Node\HashNode;
 
 class HashNodeTest extends AbstractNodeTest
 {
-    public function getToStringConversionTestData()
+    public function getToStringConversionTestData(): array
     {
         return [
             [new HashNode(new ElementNode(), 'id'), 'Hash[Element[*]#id]'],
         ];
     }
 
-    public function getSpecificityValueTestData()
+    public function getSpecificityValueTestData(): array
     {
         return [
             [new HashNode(new ElementNode(), 'id'), 100],

@@ -44,14 +44,14 @@ class CssSelectorConverterTest extends TestCase
     }
 
     /** @dataProvider getCssToXPathWithoutPrefixTestData */
-    public function testCssToXPathWithoutPrefix($css, $xpath)
+    public function testCssToXPathWithoutPrefix(string $css, string $xpath)
     {
         $converter = new CssSelectorConverter();
 
         $this->assertEquals($xpath, $converter->toXPath($css, ''), '->parse() parses an input string and returns a node');
     }
 
-    public function getCssToXPathWithoutPrefixTestData()
+    public function getCssToXPathWithoutPrefixTestData(): array
     {
         return [
             ['h1', 'h1'],

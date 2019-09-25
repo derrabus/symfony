@@ -17,18 +17,18 @@ use Symfony\Component\CssSelector\Node\Specificity;
 class SpecificityTest extends TestCase
 {
     /** @dataProvider getValueTestData */
-    public function testValue(Specificity $specificity, $value)
+    public function testValue(Specificity $specificity, int $value)
     {
         $this->assertEquals($value, $specificity->getValue());
     }
 
     /** @dataProvider getValueTestData */
-    public function testPlusValue(Specificity $specificity, $value)
+    public function testPlusValue(Specificity $specificity, int $value)
     {
         $this->assertEquals($value + 123, $specificity->plus(new Specificity(1, 2, 3))->getValue());
     }
 
-    public function getValueTestData()
+    public function getValueTestData(): array
     {
         return [
             [new Specificity(0, 0, 0), 0],
@@ -40,12 +40,12 @@ class SpecificityTest extends TestCase
     }
 
     /** @dataProvider getCompareTestData */
-    public function testCompareTo(Specificity $a, Specificity $b, $result)
+    public function testCompareTo(Specificity $a, Specificity $b, int $result)
     {
         $this->assertEquals($result, $a->compareTo($b));
     }
 
-    public function getCompareTestData()
+    public function getCompareTestData(): array
     {
         return [
             [new Specificity(0, 0, 0), new Specificity(0, 0, 0), 0],

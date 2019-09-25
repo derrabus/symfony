@@ -22,13 +22,13 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
 class TranslatorTest extends TestCase
 {
     /** @dataProvider getXpathLiteralTestData */
-    public function testXpathLiteral($value, $literal)
+    public function testXpathLiteral(string $value, string $literal)
     {
         $this->assertEquals($literal, Translator::getXpathLiteral($value));
     }
 
     /** @dataProvider getCssToXPathTestData */
-    public function testCssToXPath($css, $xpath)
+    public function testCssToXPath(string $css, string $xpath)
     {
         $translator = new Translator();
         $translator->registerExtension(new HtmlExtension($translator));
@@ -91,7 +91,7 @@ class TranslatorTest extends TestCase
     }
 
     /** @dataProvider getXmlLangTestData */
-    public function testXmlLang($css, array $elementsId)
+    public function testXmlLang(string $css, array $elementsId)
     {
         $translator = new Translator();
         $document = new \SimpleXMLElement(file_get_contents(__DIR__.'/Fixtures/lang.xml'));
@@ -103,7 +103,7 @@ class TranslatorTest extends TestCase
     }
 
     /** @dataProvider getHtmlIdsTestData */
-    public function testHtmlIds($css, array $elementsId)
+    public function testHtmlIds(string $css, array $elementsId)
     {
         $translator = new Translator();
         $translator->registerExtension(new HtmlExtension($translator));
@@ -124,7 +124,7 @@ class TranslatorTest extends TestCase
     }
 
     /** @dataProvider getHtmlShakespearTestData */
-    public function testHtmlShakespear($css, $count)
+    public function testHtmlShakespear(string $css, int $count)
     {
         $translator = new Translator();
         $translator->registerExtension(new HtmlExtension($translator));
@@ -137,7 +137,7 @@ class TranslatorTest extends TestCase
         $this->assertCount($count, $elements);
     }
 
-    public function getXpathLiteralTestData()
+    public function getXpathLiteralTestData(): array
     {
         return [
             ['foo', "'foo'"],
@@ -147,7 +147,7 @@ class TranslatorTest extends TestCase
         ];
     }
 
-    public function getCssToXPathTestData()
+    public function getCssToXPathTestData(): array
     {
         return [
             ['*', '*'],
@@ -194,7 +194,7 @@ class TranslatorTest extends TestCase
         ];
     }
 
-    public function getXmlLangTestData()
+    public function getXmlLangTestData(): array
     {
         return [
             [':lang("EN")', ['first', 'second', 'third', 'fourth']],
@@ -209,7 +209,7 @@ class TranslatorTest extends TestCase
         ];
     }
 
-    public function getHtmlIdsTestData()
+    public function getHtmlIdsTestData(): array
     {
         return [
             ['div', ['outer-div', 'li-div', 'foobar-div']],
@@ -332,7 +332,7 @@ class TranslatorTest extends TestCase
         ];
     }
 
-    public function getHtmlShakespearTestData()
+    public function getHtmlShakespearTestData(): array
     {
         return [
             ['*', 246],

@@ -21,7 +21,7 @@ use Symfony\Component\CssSelector\Parser\Token;
 class ParserTest extends TestCase
 {
     /** @dataProvider getParserTestData */
-    public function testParser($source, $representation)
+    public function testParser(string $source, array $representation)
     {
         $parser = new Parser();
 
@@ -31,20 +31,18 @@ class ParserTest extends TestCase
     }
 
     /** @dataProvider getParserExceptionTestData */
-    public function testParserException($source, $message)
+    public function testParserException(string $source, string $message)
     {
         $parser = new Parser();
 
-        try {
-            $parser->parse($source);
-            $this->fail('Parser should throw a SyntaxErrorException.');
-        } catch (SyntaxErrorException $e) {
-            $this->assertEquals($message, $e->getMessage());
-        }
+        $this->expectException(SyntaxErrorException::class);
+        $this->expectExceptionMessage($message);
+
+        $parser->parse($source);
     }
 
     /** @dataProvider getPseudoElementsTestData */
-    public function testPseudoElements($source, $element, $pseudo)
+    public function testPseudoElements(string $source, string $element, string $pseudo)
     {
         $parser = new Parser();
         $selectors = $parser->parse($source);
@@ -57,7 +55,7 @@ class ParserTest extends TestCase
     }
 
     /** @dataProvider getSpecificityTestData */
-    public function testSpecificity($source, $value)
+    public function testSpecificity(string $source, int $value)
     {
         $parser = new Parser();
         $selectors = $parser->parse($source);
@@ -69,7 +67,7 @@ class ParserTest extends TestCase
     }
 
     /** @dataProvider getParseSeriesTestData */
-    public function testParseSeries($series, $a, $b)
+    public function testParseSeries(string $series, int $a, int $b)
     {
         $parser = new Parser();
         $selectors = $parser->parse(sprintf(':nth-child(%s)', $series));
@@ -81,7 +79,7 @@ class ParserTest extends TestCase
     }
 
     /** @dataProvider getParseSeriesExceptionTestData */
-    public function testParseSeriesException($series)
+    public function testParseSeriesException(string $series)
     {
         $parser = new Parser();
         $selectors = $parser->parse(sprintf(':nth-child(%s)', $series));
@@ -93,7 +91,7 @@ class ParserTest extends TestCase
         Parser::parseSeries($function->getArguments());
     }
 
-    public function getParserTestData()
+    public function getParserTestData(): array
     {
         return [
             ['*', ['Element[*]']],
@@ -141,7 +139,7 @@ class ParserTest extends TestCase
         ];
     }
 
-    public function getParserExceptionTestData()
+    public function getParserExceptionTestData(): array
     {
         return [
             ['attributes(href)/html/body/a', SyntaxErrorException::unexpectedToken('selector', new Token(Token::TYPE_DELIMITER, '(', 10))->getMessage()],
@@ -171,7 +169,7 @@ class ParserTest extends TestCase
         ];
     }
 
-    public function getPseudoElementsTestData()
+    public function getPseudoElementsTestData(): array
     {
         return [
             ['foo', 'Element[foo]', ''],
@@ -193,7 +191,7 @@ class ParserTest extends TestCase
         ];
     }
 
-    public function getSpecificityTestData()
+    public function getSpecificityTestData(): array
     {
         return [
             ['*', 0],
@@ -221,7 +219,7 @@ class ParserTest extends TestCase
         ];
     }
 
-    public function getParseSeriesTestData()
+    public function getParseSeriesTestData(): array
     {
         return [
             ['1n+3', 1, 3],
@@ -243,7 +241,7 @@ class ParserTest extends TestCase
         ];
     }
 
-    public function getParseSeriesExceptionTestData()
+    public function getParseSeriesExceptionTestData(): array
     {
         return [
             ['foo'],

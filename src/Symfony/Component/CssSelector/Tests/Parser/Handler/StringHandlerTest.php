@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\CssSelector\Tests\Parser\Handler;
 
+use Symfony\Component\CssSelector\Parser\Handler\HandlerInterface;
 use Symfony\Component\CssSelector\Parser\Handler\StringHandler;
 use Symfony\Component\CssSelector\Parser\Token;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
@@ -18,7 +19,7 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
 
 class StringHandlerTest extends AbstractHandlerTest
 {
-    public function getHandleValueTestData()
+    public function getHandleValueTestData(): array
     {
         return [
             ['"hello"', new Token(Token::TYPE_STRING, 'hello', 1), ''],
@@ -31,7 +32,7 @@ class StringHandlerTest extends AbstractHandlerTest
         ];
     }
 
-    public function getDontHandleValueTestData()
+    public function getDontHandleValueTestData(): array
     {
         return [
             ['hello'],
@@ -41,7 +42,7 @@ class StringHandlerTest extends AbstractHandlerTest
         ];
     }
 
-    protected function generateHandler()
+    protected function generateHandler(): HandlerInterface
     {
         $patterns = new TokenizerPatterns();
 
