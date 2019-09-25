@@ -42,7 +42,7 @@ class FileFormFieldTest extends FormFieldTestCase
     /**
      * @dataProvider getSetValueMethods
      */
-    public function testSetValue($method)
+    public function testSetValue(string $method)
     {
         $node = $this->createNode('input', '', ['type' => 'file']);
         $field = new FileFormField($node);
@@ -78,7 +78,7 @@ class FileFormFieldTest extends FormFieldTestCase
         );
     }
 
-    public function getSetValueMethods()
+    public function getSetValueMethods(): array
     {
         return [
             ['setValue'],

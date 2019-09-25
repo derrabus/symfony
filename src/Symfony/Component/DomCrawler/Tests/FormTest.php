@@ -12,6 +12,7 @@
 namespace Symfony\Component\DomCrawler\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DomCrawler\Field\FormField;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\FormFieldRegistry;
 
@@ -183,7 +184,7 @@ class FormTest extends TestCase
     /**
      * @dataProvider provideInitializeValues
      */
-    public function testConstructor($message, $form, $values)
+    public function testConstructor(string $message, string $form, array $values)
     {
         $form = $this->createForm('<form>'.$form.'</form>');
         $this->assertEquals(
@@ -200,7 +201,7 @@ class FormTest extends TestCase
         );
     }
 
-    public function provideInitializeValues()
+    public function provideInitializeValues(): array
     {
         return [
             [
@@ -495,7 +496,7 @@ class FormTest extends TestCase
     /**
      * @dataProvider provideGetUriValues
      */
-    public function testGetUri($message, $form, $values, $uri, $method = null)
+    public function testGetUri(string $message, string $form, array $values, string $uri, string $method = null)
     {
         $form = $this->createForm($form, $method);
         $form->setValues($values);
@@ -568,7 +569,7 @@ class FormTest extends TestCase
         $this->assertEquals('http://localhost/bar', $form->getUri(), '->getUri() returns absolute URIs');
     }
 
-    public function provideGetUriValues()
+    public function provideGetUriValues(): array
     {
         return [
             [
@@ -853,7 +854,7 @@ class FormTest extends TestCase
         $this->assertInstanceOf('Symfony\Component\DomCrawler\Field\ChoiceFormField', $form->get('option'));
     }
 
-    protected function getFormFieldMock($name, $value = null)
+    private function getFormFieldMock(string $name, $value = null): FormField
     {
         $field = $this
             ->getMockBuilder('Symfony\\Component\\DomCrawler\\Field\\FormField')
@@ -877,7 +878,7 @@ class FormTest extends TestCase
         return $field;
     }
 
-    protected function createForm($form, $method = null, $currentUri = null)
+    private function createForm(string $form, string $method = null, string $currentUri = null): Form
     {
         $dom = new \DOMDocument();
         @$dom->loadHTML('<html>'.$form.'</html>');
@@ -892,7 +893,7 @@ class FormTest extends TestCase
         return new Form($nodes->item($nodes->length - 1), $currentUri, $method);
     }
 
-    protected function createTestHtml5Form()
+    private function createTestHtml5Form(): \DOMDocument
     {
         $dom = new \DOMDocument();
         $dom->loadHTML('
@@ -929,7 +930,7 @@ class FormTest extends TestCase
         return $dom;
     }
 
-    protected function createTestMultipleForm()
+    private function createTestMultipleForm(): \DOMDocument
     {
         $dom = new \DOMDocument();
         $dom->loadHTML('

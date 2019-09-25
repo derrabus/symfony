@@ -1098,13 +1098,13 @@ HTML;
     /**
      * @dataProvider getBaseTagData
      */
-    public function testBaseTag($baseValue, $linkValue, $expectedUri, $currentUri = null, $description = '')
+    public function testBaseTag(string $baseValue, string $linkValue, string $expectedUri, string $currentUri = null, string $description = '')
     {
         $crawler = $this->createCrawler($this->getDoctype().'<html><base href="'.$baseValue.'"><a href="'.$linkValue.'"></a></html>', $currentUri);
         $this->assertEquals($expectedUri, $crawler->filterXPath('//a')->link()->getUri(), $description);
     }
 
-    public function getBaseTagData()
+    public function getBaseTagData(): array
     {
         return [
             ['http://base.com', 'link', 'http://base.com/link'],
@@ -1118,13 +1118,13 @@ HTML;
     /**
      * @dataProvider getBaseTagWithFormData
      */
-    public function testBaseTagWithForm($baseValue, $actionValue, $expectedUri, $currentUri = null, $description = null)
+    public function testBaseTagWithForm(string $baseValue, string $actionValue, string $expectedUri, string $currentUri = null, string $description = null)
     {
         $crawler = $this->createCrawler($this->getDoctype().'<html><base href="'.$baseValue.'"><form method="post" action="'.$actionValue.'"><button type="submit" name="submit"/></form></html>', $currentUri);
         $this->assertEquals($expectedUri, $crawler->filterXPath('//button')->form()->getUri(), $description);
     }
 
-    public function getBaseTagWithFormData()
+    public function getBaseTagWithFormData(): array
     {
         return [
             ['https://base.com/', 'link/', 'https://base.com/link/', 'https://base.com/link/', '<base> tag does work with a path and relative form action'],
@@ -1251,7 +1251,7 @@ HTML;
         $this->assertEquals('Žťčýů', $crawler->filterXPath('//p')->text());
     }
 
-    public function createTestCrawler($uri = null)
+    public function createTestCrawler($uri = null): Crawler
     {
         $dom = new \DOMDocument();
         $dom->loadHTML($this->getDoctype().'
@@ -1303,7 +1303,7 @@ HTML;
         return $this->createCrawler($dom, $uri);
     }
 
-    protected function createTestXmlCrawler($uri = null)
+    protected function createTestXmlCrawler(string $uri = null): Crawler
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <entry xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">
@@ -1320,7 +1320,7 @@ HTML;
         return $this->createCrawler($xml, $uri);
     }
 
-    protected function createDomDocument()
+    protected function createDomDocument(): \DOMDocument
     {
         $dom = new \DOMDocument();
         $dom->loadXML('<html><div class="foo"></div></html>');
@@ -1328,7 +1328,7 @@ HTML;
         return $dom;
     }
 
-    protected function createNodeList()
+    protected function createNodeList(): \DOMNodeList
     {
         $dom = new \DOMDocument();
         $dom->loadXML('<html><div class="foo"></div></html>');

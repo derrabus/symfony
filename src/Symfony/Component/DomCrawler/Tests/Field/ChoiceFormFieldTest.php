@@ -359,7 +359,7 @@ class ChoiceFormFieldTest extends FormFieldTestCase
         $this->assertSame('', $field->getValue());
     }
 
-    protected function createSelectNode($options, $attributes = [], $selectedAttrText = 'selected')
+    private function createSelectNode(array $options, array $attributes = [], string $selectedAttrText = 'selected'): \DOMElement
     {
         $document = new \DOMDocument();
         $node = $document->createElement('select');
@@ -381,7 +381,7 @@ class ChoiceFormFieldTest extends FormFieldTestCase
         return $node;
     }
 
-    protected function createSelectNodeWithEmptyOption($options, $attributes = [])
+    private function createSelectNodeWithEmptyOption(array $options, array $attributes = []): \DOMElement
     {
         $document = new \DOMDocument();
         $node = $document->createElement('select');
