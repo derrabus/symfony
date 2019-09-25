@@ -17,7 +17,7 @@ use Symfony\Component\ExpressionLanguage\Node\ConstantNode;
 
 class BinaryNodeTest extends AbstractNodeTest
 {
-    public function getEvaluateData()
+    public function getEvaluateData(): iterable
     {
         $array = new ArrayNode();
         $array->addElement(new ConstantNode('a'));
@@ -66,7 +66,7 @@ class BinaryNodeTest extends AbstractNodeTest
         ];
     }
 
-    public function getCompileData()
+    public function getCompileData(): iterable
     {
         $array = new ArrayNode();
         $array->addElement(new ConstantNode('a'));
@@ -115,7 +115,7 @@ class BinaryNodeTest extends AbstractNodeTest
         ];
     }
 
-    public function getDumpData()
+    public function getDumpData(): iterable
     {
         $array = new ArrayNode();
         $array->addElement(new ConstantNode('a'));

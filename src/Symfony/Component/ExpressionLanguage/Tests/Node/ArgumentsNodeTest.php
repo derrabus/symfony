@@ -12,24 +12,25 @@
 namespace Symfony\Component\ExpressionLanguage\Tests\Node;
 
 use Symfony\Component\ExpressionLanguage\Node\ArgumentsNode;
+use Symfony\Component\ExpressionLanguage\Node\ArrayNode;
 
 class ArgumentsNodeTest extends ArrayNodeTest
 {
-    public function getCompileData()
+    public function getCompileData(): iterable
     {
         return [
             ['"a", "b"', $this->getArrayNode()],
         ];
     }
 
-    public function getDumpData()
+    public function getDumpData(): iterable
     {
         return [
             ['"a", "b"', $this->getArrayNode()],
         ];
     }
 
-    protected function createArrayNode()
+    protected function createArrayNode(): ArrayNode
     {
         return new ArgumentsNode();
     }

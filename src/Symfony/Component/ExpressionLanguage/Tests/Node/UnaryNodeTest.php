@@ -16,7 +16,7 @@ use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
 
 class UnaryNodeTest extends AbstractNodeTest
 {
-    public function getEvaluateData()
+    public function getEvaluateData(): iterable
     {
         return [
             [-1, new UnaryNode('-', new ConstantNode(1))],
@@ -26,7 +26,7 @@ class UnaryNodeTest extends AbstractNodeTest
         ];
     }
 
-    public function getCompileData()
+    public function getCompileData(): iterable
     {
         return [
             ['(-1)', new UnaryNode('-', new ConstantNode(1))],
@@ -36,7 +36,7 @@ class UnaryNodeTest extends AbstractNodeTest
         ];
     }
 
-    public function getDumpData()
+    public function getDumpData(): iterable
     {
         return [
             ['(- 1)', new UnaryNode('-', new ConstantNode(1))],

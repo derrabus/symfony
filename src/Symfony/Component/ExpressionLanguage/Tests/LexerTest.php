@@ -31,7 +31,7 @@ class LexerTest extends TestCase
     /**
      * @dataProvider getTokenizeData
      */
-    public function testTokenize($tokens, $expression)
+    public function testTokenize(array $tokens, string $expression)
     {
         $tokens[] = new Token('end of expression', null, \strlen($expression) + 1);
         $this->assertEquals(new TokenStream($tokens, $expression), $this->lexer->tokenize($expression));
@@ -53,7 +53,7 @@ class LexerTest extends TestCase
         $this->lexer->tokenize($expression);
     }
 
-    public function getTokenizeData()
+    public function getTokenizeData(): array
     {
         return [
             [

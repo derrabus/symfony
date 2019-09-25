@@ -18,7 +18,7 @@ use Symfony\Component\ExpressionLanguage\Node\NameNode;
 
 class GetAttrNodeTest extends AbstractNodeTest
 {
-    public function getEvaluateData()
+    public function getEvaluateData(): iterable
     {
         return [
             ['b', new GetAttrNode(new NameNode('foo'), new ConstantNode(0), $this->getArrayNode(), GetAttrNode::ARRAY_CALL), ['foo' => ['b' => 'a', 'b']]],
@@ -31,7 +31,7 @@ class GetAttrNodeTest extends AbstractNodeTest
         ];
     }
 
-    public function getCompileData()
+    public function getCompileData(): iterable
     {
         return [
             ['$foo[0]', new GetAttrNode(new NameNode('foo'), new ConstantNode(0), $this->getArrayNode(), GetAttrNode::ARRAY_CALL)],
@@ -44,7 +44,7 @@ class GetAttrNodeTest extends AbstractNodeTest
         ];
     }
 
-    public function getDumpData()
+    public function getDumpData(): iterable
     {
         return [
             ['foo[0]', new GetAttrNode(new NameNode('foo'), new ConstantNode(0), $this->getArrayNode(), GetAttrNode::ARRAY_CALL)],
@@ -57,7 +57,7 @@ class GetAttrNodeTest extends AbstractNodeTest
         ];
     }
 
-    protected function getArrayNode()
+    protected function getArrayNode(): ArrayNode
     {
         $array = new ArrayNode();
         $array->addElement(new ConstantNode('a'), new ConstantNode('b'));

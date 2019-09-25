@@ -88,16 +88,16 @@ class ExpressionLanguageTest extends TestCase
     /**
      * @dataProvider shortCircuitProviderEvaluate
      */
-    public function testShortCircuitOperatorsEvaluate($expression, array $values, $expected)
+    public function testShortCircuitOperatorsEvaluate(string $expression, array $values, bool $expected)
     {
         $expressionLanguage = new ExpressionLanguage();
-        $this->assertEquals($expected, $expressionLanguage->evaluate($expression, $values));
+        $this->assertSame($expected, $expressionLanguage->evaluate($expression, $values));
     }
 
     /**
      * @dataProvider shortCircuitProviderCompile
      */
-    public function testShortCircuitOperatorsCompile($expression, array $names, $expected)
+    public function testShortCircuitOperatorsCompile(string $expression, array $names, bool $expected)
     {
         $result = null;
         $expressionLanguage = new ExpressionLanguage();
@@ -113,7 +113,7 @@ class ExpressionLanguageTest extends TestCase
         $expressionLanguage->parse('node.', ['node']);
     }
 
-    public function shortCircuitProviderEvaluate()
+    public function shortCircuitProviderEvaluate(): array
     {
         $object = $this->getMockBuilder('stdClass')->setMethods(['foo'])->getMock();
         $object->expects($this->never())->method('foo');
@@ -126,7 +126,7 @@ class ExpressionLanguageTest extends TestCase
         ];
     }
 
-    public function shortCircuitProviderCompile()
+    public function shortCircuitProviderCompile(): array
     {
         return [
             ['false and foo', ['foo' => 'foo'], false],
@@ -198,7 +198,7 @@ class ExpressionLanguageTest extends TestCase
     /**
      * @dataProvider getRegisterCallbacks
      */
-    public function testRegisterAfterParse($registerCallback)
+    public function testRegisterAfterParse(callable $registerCallback)
     {
         $this->expectException('LogicException');
         $el = new ExpressionLanguage();
@@ -209,7 +209,7 @@ class ExpressionLanguageTest extends TestCase
     /**
      * @dataProvider getRegisterCallbacks
      */
-    public function testRegisterAfterEval($registerCallback)
+    public function testRegisterAfterEval(callable $registerCallback)
     {
         $this->expectException('LogicException');
         $el = new ExpressionLanguage();
@@ -228,7 +228,7 @@ class ExpressionLanguageTest extends TestCase
     /**
      * @dataProvider getRegisterCallbacks
      */
-    public function testRegisterAfterCompile($registerCallback)
+    public function testRegisterAfterCompile(callable $registerCallback)
     {
         $this->expectException('LogicException');
         $el = new ExpressionLanguage();
@@ -236,7 +236,7 @@ class ExpressionLanguageTest extends TestCase
         $registerCallback($el);
     }
 
-    public function getRegisterCallbacks()
+    public function getRegisterCallbacks(): array
     {
         return [
             [

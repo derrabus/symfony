@@ -39,14 +39,14 @@ class ParserTest extends TestCase
     /**
      * @dataProvider getParseData
      */
-    public function testParse($node, $expression, $names = [])
+    public function testParse(Node\Node $node, string $expression, array $names = [])
     {
         $lexer = new Lexer();
         $parser = new Parser([]);
         $this->assertEquals($node, $parser->parse($lexer->tokenize($expression), $names));
     }
 
-    public function getParseData()
+    public function getParseData(): array
     {
         $arguments = new Node\ArgumentsNode();
         $arguments->addElement(new Node\ConstantNode('arg1'));
@@ -154,7 +154,7 @@ class ParserTest extends TestCase
         ];
     }
 
-    private function createGetAttrNode($node, $item, $type)
+    private function createGetAttrNode(Node\Node $node, string $item, int $type): Node\GetAttrNode
     {
         return new Node\GetAttrNode($node, new Node\ConstantNode($item, Node\GetAttrNode::ARRAY_CALL !== $type), new Node\ArgumentsNode(), $type);
     }
@@ -162,7 +162,7 @@ class ParserTest extends TestCase
     /**
      * @dataProvider getInvalidPostfixData
      */
-    public function testParseWithInvalidPostfixData($expr, $names = [])
+    public function testParseWithInvalidPostfixData(string $expr, array $names = [])
     {
         $this->expectException('Symfony\Component\ExpressionLanguage\SyntaxError');
         $lexer = new Lexer();
@@ -170,7 +170,7 @@ class ParserTest extends TestCase
         $parser->parse($lexer->tokenize($expr), $names);
     }
 
-    public function getInvalidPostfixData()
+    public function getInvalidPostfixData(): array
     {
         return [
             [
