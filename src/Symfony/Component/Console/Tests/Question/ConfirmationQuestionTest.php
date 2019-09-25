@@ -19,18 +19,18 @@ class ConfirmationQuestionTest extends TestCase
     /**
      * @dataProvider normalizerUsecases
      */
-    public function testDefaultRegexUsecases($default, $answers, $expected, $message)
+    public function testDefaultRegexUsecases(bool $default, array $answers, bool $expected, string $message)
     {
         $sut = new ConfirmationQuestion('A question', $default);
 
         foreach ($answers as $answer) {
             $normalizer = $sut->getNormalizer();
             $actual = $normalizer($answer);
-            $this->assertEquals($expected, $actual, sprintf($message, $answer));
+            $this->assertSame($expected, $actual, sprintf($message, $answer));
         }
     }
 
-    public function normalizerUsecases()
+    public function normalizerUsecases(): array
     {
         return [
             [

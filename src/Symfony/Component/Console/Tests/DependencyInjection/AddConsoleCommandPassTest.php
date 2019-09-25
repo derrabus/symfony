@@ -27,7 +27,7 @@ class AddConsoleCommandPassTest extends TestCase
     /**
      * @dataProvider visibilityProvider
      */
-    public function testProcess($public)
+    public function testProcess(bool $public)
     {
         $container = new ContainerBuilder();
         $container->addCompilerPass(new AddConsoleCommandPass(), PassConfig::TYPE_BEFORE_REMOVING);
@@ -110,7 +110,7 @@ class AddConsoleCommandPassTest extends TestCase
         $this->assertSame(['new-name' => 'with-default-name'], $container->getDefinition('console.command_loader')->getArgument(1));
     }
 
-    public function visibilityProvider()
+    public function visibilityProvider(): array
     {
         return [
             [true],

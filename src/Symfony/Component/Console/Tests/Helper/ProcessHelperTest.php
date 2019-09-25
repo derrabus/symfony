@@ -23,7 +23,7 @@ class ProcessHelperTest extends TestCase
     /**
      * @dataProvider provideCommandsAndOutput
      */
-    public function testVariousProcessRuns($expected, $cmd, $verbosity, $error)
+    public function testVariousProcessRuns(string $expected, $cmd, int $verbosity, ?string $error)
     {
         if (\is_string($cmd)) {
             $cmd = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline($cmd) : new Process($cmd);
@@ -49,7 +49,7 @@ class ProcessHelperTest extends TestCase
         $this->assertTrue($executed);
     }
 
-    public function provideCommandsAndOutput()
+    public function provideCommandsAndOutput(): array
     {
         $successOutputVerbose = <<<'EOT'
   RUN  php -r "echo 42;"
@@ -119,12 +119,12 @@ EOT;
         ];
     }
 
-    private function getOutputStream($verbosity)
+    private function getOutputStream(int $verbosity): StreamOutput
     {
         return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, false);
     }
 
-    private function getOutput(StreamOutput $output)
+    private function getOutput(StreamOutput $output): string
     {
         rewind($output->getStream());
 

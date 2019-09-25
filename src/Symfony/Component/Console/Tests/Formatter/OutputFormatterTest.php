@@ -178,7 +178,7 @@ class OutputFormatterTest extends TestCase
         }
     }
 
-    public function provideInlineStyleOptionsCases()
+    public function provideInlineStyleOptionsCases(): array
     {
         return [
             ['<unknown=_unknown_>'],
@@ -189,16 +189,6 @@ class OutputFormatterTest extends TestCase
             ['<fg=green;options=reverse;>', "\033[32;7m<a>\033[39;27m", '<a>'],
             ['<fg=green;options=bold,underscore>', "\033[32;1;4mz\033[39;22;24m", 'z'],
             ['<fg=green;options=bold,underscore,reverse;>', "\033[32;1;4;7md\033[39;22;24;27m", 'd'],
-        ];
-    }
-
-    public function provideInlineStyleTagsWithUnknownOptions()
-    {
-        return [
-            ['<options=abc;>', 'abc'],
-            ['<options=abc,def;>', 'abc'],
-            ['<fg=green;options=xyz;>', 'xyz'],
-            ['<fg=green;options=efg,abc>', 'efg'],
         ];
     }
 
@@ -250,7 +240,7 @@ class OutputFormatterTest extends TestCase
         }
     }
 
-    public function provideDecoratedAndNonDecoratedOutput()
+    public function provideDecoratedAndNonDecoratedOutput(): array
     {
         return [
             ['<error>some error</error>', 'some error', "\033[37;41msome error\033[39;49m"],

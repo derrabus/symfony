@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Console\Tests\Descriptor;
 
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +26,10 @@ use Symfony\Component\Console\Tests\Fixtures\DescriptorCommand2;
  */
 class ObjectsProvider
 {
-    public static function getInputArguments()
+    /**
+     * @return InputArgument[]
+     */
+    public static function getInputArguments(): array
     {
         return [
             'input_argument_1' => new InputArgument('argument_name', InputArgument::REQUIRED),
@@ -36,7 +41,10 @@ class ObjectsProvider
         ];
     }
 
-    public static function getInputOptions()
+    /**
+     * @return InputOption[]
+     */
+    public static function getInputOptions(): array
     {
         return [
             'input_option_1' => new InputOption('option_name', 'o', InputOption::VALUE_NONE),
@@ -51,7 +59,10 @@ class ObjectsProvider
         ];
     }
 
-    public static function getInputDefinitions()
+    /**
+     * @return InputDefinition[]
+     */
+    public static function getInputDefinitions(): array
     {
         return [
             'input_definition_1' => new InputDefinition(),
@@ -64,7 +75,10 @@ class ObjectsProvider
         ];
     }
 
-    public static function getCommands()
+    /**
+     * @return Command[]
+     */
+    public static function getCommands(): array
     {
         return [
             'command_1' => new DescriptorCommand1(),
@@ -72,7 +86,10 @@ class ObjectsProvider
         ];
     }
 
-    public static function getApplications()
+    /**
+     * @return Application[]
+     */
+    public static function getApplications(): array
     {
         return [
             'application_1' => new DescriptorApplication1(),

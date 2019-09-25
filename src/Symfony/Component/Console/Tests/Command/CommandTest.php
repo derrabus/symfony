@@ -113,7 +113,7 @@ class CommandTest extends TestCase
     /**
      * @dataProvider provideInvalidCommandNames
      */
-    public function testInvalidCommandNames($name)
+    public function testInvalidCommandNames(string $name)
     {
         $this->expectException('InvalidArgumentException');
         $this->expectExceptionMessage(sprintf('Command name "%s" is invalid.', $name));
@@ -122,7 +122,7 @@ class CommandTest extends TestCase
         $command->setName($name);
     }
 
-    public function provideInvalidCommandNames()
+    public function provideInvalidCommandNames(): array
     {
         return [
             [''],
@@ -356,7 +356,7 @@ class CommandTest extends TestCase
         $this->assertEquals('interact called'.PHP_EOL.'from the code...'.PHP_EOL, $tester->getDisplay());
     }
 
-    public function getSetCodeBindToClosureTests()
+    public function getSetCodeBindToClosureTests(): array
     {
         return [
             [true, 'not bound to the command'],
@@ -367,7 +367,7 @@ class CommandTest extends TestCase
     /**
      * @dataProvider getSetCodeBindToClosureTests
      */
-    public function testSetCodeBindToClosure($previouslyBound, $expected)
+    public function testSetCodeBindToClosure(bool $previouslyBound, string $expected)
     {
         $code = createClosure();
         if ($previouslyBound) {
@@ -391,7 +391,7 @@ class CommandTest extends TestCase
         $this->assertEquals('interact called'.PHP_EOL.'bound'.PHP_EOL, $tester->getDisplay());
     }
 
-    private static function createClosure()
+    private static function createClosure(): callable
     {
         return function (InputInterface $input, OutputInterface $output) {
             $output->writeln(isset($this) ? 'bound' : 'not bound');

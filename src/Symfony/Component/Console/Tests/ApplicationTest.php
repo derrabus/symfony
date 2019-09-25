@@ -77,7 +77,7 @@ class ApplicationTest extends TestCase
         require_once self::$fixturesPath.'/TestAmbiguousCommandRegistering2.php';
     }
 
-    protected function normalizeLineBreaks($text)
+    private function normalizeLineBreaks(string $text): string
     {
         return str_replace(PHP_EOL, "\n", $text);
     }
@@ -405,7 +405,7 @@ class ApplicationTest extends TestCase
     /**
      * @dataProvider provideAmbiguousAbbreviations
      */
-    public function testFindWithAmbiguousAbbreviations($abbreviation, $expectedExceptionMessage)
+    public function testFindWithAmbiguousAbbreviations(string $abbreviation, string $expectedExceptionMessage)
     {
         putenv('COLUMNS=120');
         $this->expectException('Symfony\Component\Console\Exception\CommandNotFoundException');
@@ -419,7 +419,7 @@ class ApplicationTest extends TestCase
         $application->find($abbreviation);
     }
 
-    public function provideAmbiguousAbbreviations()
+    public function provideAmbiguousAbbreviations(): array
     {
         return [
             ['f', 'Command "f" is not defined.'],
@@ -470,7 +470,7 @@ class ApplicationTest extends TestCase
     /**
      * @dataProvider provideInvalidCommandNamesSingle
      */
-    public function testFindAlternativeExceptionMessageSingle($name)
+    public function testFindAlternativeExceptionMessageSingle(string $name)
     {
         $this->expectException('Symfony\Component\Console\Exception\CommandNotFoundException');
         $this->expectExceptionMessage('Did you mean this');
@@ -525,7 +525,7 @@ class ApplicationTest extends TestCase
         $this->assertStringContainsString('Do you want to run "foo" instead?  (yes/no) [no]:', $display);
     }
 
-    public function provideInvalidCommandNamesSingle()
+    public function provideInvalidCommandNamesSingle(): array
     {
         return [
             ['foo3:barr'],
@@ -1150,7 +1150,7 @@ class ApplicationTest extends TestCase
         $application->run($input, $output);
     }
 
-    public function getAddingAlreadySetDefinitionElementData()
+    public function getAddingAlreadySetDefinitionElementData(): array
     {
         return [
             [new InputArgument('command', InputArgument::REQUIRED)],
@@ -1678,7 +1678,7 @@ class ApplicationTest extends TestCase
         $this->assertArrayNotHasKey('disabled', $application->all());
     }
 
-    protected function getDispatcher($skipCommand = false)
+    protected function getDispatcher(bool $skipCommand = false): EventDispatcher
     {
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener('console.command', function (ConsoleCommandEvent $event) use ($skipCommand) {

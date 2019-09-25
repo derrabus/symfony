@@ -45,7 +45,7 @@ class DumperTest extends TestCase
         $this->assertDumpMatchesFormat($dumper($variable), $variable);
     }
 
-    public function provideVariables()
+    public function provideVariables(): array
     {
         return [
             [null],

@@ -130,7 +130,10 @@ class SymfonyQuestionHelperTest extends AbstractQuestionHelperTest
         $dialog->ask($this->createStreamableInputInterfaceMock($this->getInputStream('')), $this->createOutputInterface(), new Question('What\'s your name?'));
     }
 
-    protected function getInputStream($input)
+    /**
+     * @return resource
+     */
+    private function getInputStream(string $input)
     {
         $stream = fopen('php://memory', 'r+', false);
         fwrite($stream, $input);
@@ -139,7 +142,7 @@ class SymfonyQuestionHelperTest extends AbstractQuestionHelperTest
         return $stream;
     }
 
-    protected function createOutputInterface()
+    private function createOutputInterface(): StreamOutput
     {
         $output = new StreamOutput(fopen('php://memory', 'r+', false));
         $output->setDecorated(false);
@@ -147,17 +150,7 @@ class SymfonyQuestionHelperTest extends AbstractQuestionHelperTest
         return $output;
     }
 
-    protected function createInputInterfaceMock($interactive = true)
-    {
-        $mock = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')->getMock();
-        $mock->expects($this->any())
-            ->method('isInteractive')
-            ->willReturn($interactive);
-
-        return $mock;
-    }
-
-    private function assertOutputContains($expected, StreamOutput $output)
+    private function assertOutputContains(string $expected, StreamOutput $output)
     {
         rewind($output->getStream());
         $stream = stream_get_contents($output->getStream());

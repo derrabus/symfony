@@ -11,13 +11,14 @@
 
 namespace Symfony\Component\Console\Tests\Descriptor;
 
+use Symfony\Component\Console\Descriptor\Descriptor;
 use Symfony\Component\Console\Descriptor\MarkdownDescriptor;
 use Symfony\Component\Console\Tests\Fixtures\DescriptorApplicationMbString;
 use Symfony\Component\Console\Tests\Fixtures\DescriptorCommandMbString;
 
 class MarkdownDescriptorTest extends AbstractDescriptorTest
 {
-    public function getDescribeCommandTestData()
+    public function getDescribeCommandTestData(): array
     {
         return $this->getDescriptionTestData(array_merge(
             ObjectsProvider::getCommands(),
@@ -25,7 +26,7 @@ class MarkdownDescriptorTest extends AbstractDescriptorTest
         ));
     }
 
-    public function getDescribeApplicationTestData()
+    public function getDescribeApplicationTestData(): array
     {
         return $this->getDescriptionTestData(array_merge(
             ObjectsProvider::getApplications(),
@@ -33,12 +34,12 @@ class MarkdownDescriptorTest extends AbstractDescriptorTest
         ));
     }
 
-    protected function getDescriptor()
+    protected function getDescriptor(): Descriptor
     {
         return new MarkdownDescriptor();
     }
 
-    protected function getFormat()
+    protected function getFormat(): string
     {
         return 'md';
     }

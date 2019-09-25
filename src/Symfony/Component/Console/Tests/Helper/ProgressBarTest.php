@@ -855,7 +855,7 @@ class ProgressBarTest extends TestCase
     /**
      * @dataProvider provideFormat
      */
-    public function testFormatsWithoutMax($format)
+    public function testFormatsWithoutMax(string $format)
     {
         $bar = new ProgressBar($output = $this->getOutputStream(), 0, 0);
         $bar->setFormat($format);
@@ -913,12 +913,12 @@ class ProgressBarTest extends TestCase
         );
     }
 
-    protected function getOutputStream($decorated = true, $verbosity = StreamOutput::VERBOSITY_NORMAL)
+    private function getOutputStream(bool $decorated = true, int $verbosity = StreamOutput::VERBOSITY_NORMAL): StreamOutput
     {
         return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, $decorated);
     }
 
-    protected function generateOutput($expected)
+    private function generateOutput(string $expected): string
     {
         $count = substr_count($expected, "\n");
 

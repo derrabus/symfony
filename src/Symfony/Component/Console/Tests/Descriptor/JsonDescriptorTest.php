@@ -11,22 +11,23 @@
 
 namespace Symfony\Component\Console\Tests\Descriptor;
 
+use Symfony\Component\Console\Descriptor\Descriptor;
 use Symfony\Component\Console\Descriptor\JsonDescriptor;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class JsonDescriptorTest extends AbstractDescriptorTest
 {
-    protected function getDescriptor()
+    protected function getDescriptor(): Descriptor
     {
         return new JsonDescriptor();
     }
 
-    protected function getFormat()
+    protected function getFormat(): string
     {
         return 'json';
     }
 
-    protected function assertDescription($expectedDescription, $describedObject, array $options = [])
+    protected function assertDescription(string $expectedDescription, $describedObject, array $options = [])
     {
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
         $this->getDescriptor()->describe($output, $describedObject, $options + ['raw_output' => true]);

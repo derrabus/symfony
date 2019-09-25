@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\StreamableInputInterface;
 
 abstract class AbstractQuestionHelperTest extends TestCase
 {
-    protected function createStreamableInputInterfaceMock($stream = null, $interactive = true)
+    protected function createStreamableInputInterfaceMock($stream = null, bool $interactive = true): StreamableInputInterface
     {
         $mock = $this->getMockBuilder(StreamableInputInterface::class)->getMock();
         $mock->expects($this->any())

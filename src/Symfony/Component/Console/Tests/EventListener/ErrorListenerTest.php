@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Console\Tests\EventListener;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -120,17 +121,20 @@ class ErrorListenerTest extends TestCase
         $listener->onConsoleTerminate($this->getConsoleTerminateEvent($this->getMockBuilder(InputInterface::class)->getMock(), 255));
     }
 
-    private function getLogger()
+    /**
+     * @return MockObject|LoggerInterface
+     */
+    private function getLogger(): LoggerInterface
     {
         return $this->getMockForAbstractClass(LoggerInterface::class);
     }
 
-    private function getConsoleTerminateEvent(InputInterface $input, $exitCode)
+    private function getConsoleTerminateEvent(InputInterface $input, $exitCode): ConsoleTerminateEvent
     {
         return new ConsoleTerminateEvent(new Command('test:run'), $input, $this->getOutput(), $exitCode);
     }
 
-    private function getOutput()
+    private function getOutput(): OutputInterface
     {
         return $this->getMockBuilder(OutputInterface::class)->getMock();
     }

@@ -13,6 +13,7 @@ namespace Symfony\Component\Console\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 
 class HelperSetTest extends TestCase
@@ -109,19 +110,19 @@ class HelperSetTest extends TestCase
         }
     }
 
-    private function getGenericMockHelper($name, HelperSet $helperset = null)
+    private function getGenericMockHelper(string $name, HelperSet $helperset = null): HelperInterface
     {
-        $mock_helper = $this->getMockBuilder('\Symfony\Component\Console\Helper\HelperInterface')->getMock();
-        $mock_helper->expects($this->any())
+        $mockHelper = $this->getMockBuilder('\Symfony\Component\Console\Helper\HelperInterface')->getMock();
+        $mockHelper->expects($this->any())
             ->method('getName')
             ->willReturn($name);
 
         if ($helperset) {
-            $mock_helper->expects($this->any())
+            $mockHelper->expects($this->any())
                 ->method('setHelperSet')
                 ->with($this->equalTo($helperset));
         }
 
-        return $mock_helper;
+        return $mockHelper;
     }
 }

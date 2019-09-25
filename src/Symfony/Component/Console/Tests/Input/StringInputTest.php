@@ -21,7 +21,7 @@ class StringInputTest extends TestCase
     /**
      * @dataProvider getTokenizeData
      */
-    public function testTokenize($input, $tokens, $message)
+    public function testTokenize(string $input, array $tokens, string $message)
     {
         $input = new StringInput($input);
         $r = new \ReflectionClass('Symfony\Component\Console\Input\ArgvInput');
@@ -42,7 +42,7 @@ class StringInputTest extends TestCase
         $this->assertEquals('bar', $input->getOption('foo'));
     }
 
-    public function getTokenizeData()
+    public function getTokenizeData(): array
     {
         return [
             ['', [], '->tokenize() parses an empty string'],

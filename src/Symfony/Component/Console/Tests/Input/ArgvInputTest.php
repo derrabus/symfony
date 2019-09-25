@@ -43,7 +43,7 @@ class ArgvInputTest extends TestCase
     /**
      * @dataProvider provideOptions
      */
-    public function testParseOptions($input, $options, $expectedOptions, $message)
+    public function testParseOptions(array $input, array $options, array $expectedOptions, string $message)
     {
         $input = new ArgvInput($input);
         $input->bind(new InputDefinition($options));
@@ -51,7 +51,7 @@ class ArgvInputTest extends TestCase
         $this->assertSame($expectedOptions, $input->getOptions(), $message);
     }
 
-    public function provideOptions()
+    public function provideOptions(): array
     {
         return [
             [
@@ -180,7 +180,7 @@ class ArgvInputTest extends TestCase
     /**
      * @dataProvider provideInvalidInput
      */
-    public function testInvalidInput($argv, $definition, $expectedExceptionMessage)
+    public function testInvalidInput(array $argv, InputDefinition $definition, string $expectedExceptionMessage)
     {
         $this->expectException('RuntimeException');
         $this->expectExceptionMessage($expectedExceptionMessage);
@@ -189,7 +189,7 @@ class ArgvInputTest extends TestCase
         $input->bind($definition);
     }
 
-    public function provideInvalidInput()
+    public function provideInvalidInput(): array
     {
         return [
             [
@@ -404,13 +404,13 @@ class ArgvInputTest extends TestCase
     /**
      * @dataProvider provideGetParameterOptionValues
      */
-    public function testGetParameterOptionEqualSign($argv, $key, $default, $onlyParams, $expected)
+    public function testGetParameterOptionEqualSign(array $argv, $key, $default, bool $onlyParams, string $expected)
     {
         $input = new ArgvInput($argv);
         $this->assertEquals($expected, $input->getParameterOption($key, $default, $onlyParams), '->getParameterOption() returns the expected value');
     }
 
-    public function provideGetParameterOptionValues()
+    public function provideGetParameterOptionValues(): array
     {
         return [
             [['app/console', 'foo:bar'], '-e', 'default', false, 'default'],

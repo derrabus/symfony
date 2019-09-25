@@ -15,6 +15,7 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -332,7 +333,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $this->assertSame('b', $dialog->ask($this->createStreamableInputInterfaceMock($inputStream), $this->createOutputInterface(), $question));
     }
 
-    public function getInputs()
+    public function getInputs(): array
     {
         return [
             ['$'], // 1 byte character
@@ -345,7 +346,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
     /**
      * @dataProvider getInputs
      */
-    public function testAskWithAutocompleteWithMultiByteCharacter($character)
+    public function testAskWithAutocompleteWithMultiByteCharacter(string $character)
     {
         if (!Terminal::hasSttyAvailable()) {
             $this->markTestSkipped('`stty` is required to test autocomplete functionality');
@@ -440,7 +441,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
     /**
      * @dataProvider getAskConfirmationData
      */
-    public function testAskConfirmation($question, $expected, $default = true)
+    public function testAskConfirmation(string $question, bool $expected, bool $default = true)
     {
         $dialog = new QuestionHelper();
 
@@ -449,7 +450,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $this->assertEquals($expected, $dialog->ask($this->createStreamableInputInterfaceMock($inputStream), $this->createOutputInterface(), $question), 'confirmation question should '.($expected ? 'pass' : 'cancel'));
     }
 
-    public function getAskConfirmationData()
+    public function getAskConfirmationData(): array
     {
         return [
             ['', true],
@@ -506,7 +507,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
     /**
      * @dataProvider simpleAnswerProvider
      */
-    public function testSelectChoiceFromSimpleChoices($providedAnswer, $expectedValue)
+    public function testSelectChoiceFromSimpleChoices($providedAnswer, string $expectedValue)
     {
         $possibleChoices = [
             'My environment 1',
@@ -525,7 +526,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $this->assertSame($expectedValue, $answer);
     }
 
-    public function simpleAnswerProvider()
+    public function simpleAnswerProvider(): array
     {
         return [
             [0, 'My environment 1'],
@@ -540,7 +541,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
     /**
      * @dataProvider specialCharacterInMultipleChoice
      */
-    public function testSpecialCharacterChoiceFromMultipleChoiceList($providedAnswer, $expectedValue)
+    public function testSpecialCharacterChoiceFromMultipleChoiceList(string $providedAnswer, array $expectedValue)
     {
         $possibleChoices = [
             '.',
@@ -560,7 +561,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $this->assertSame($expectedValue, $answer);
     }
 
-    public function specialCharacterInMultipleChoice()
+    public function specialCharacterInMultipleChoice(): array
     {
         return [
             ['.', ['.']],
@@ -571,7 +572,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
     /**
      * @dataProvider mixedKeysChoiceListAnswerProvider
      */
-    public function testChoiceFromChoicelistWithMixedKeys($providedAnswer, $expectedValue)
+    public function testChoiceFromChoicelistWithMixedKeys($providedAnswer, string $expectedValue)
     {
         $possibleChoices = [
             '0' => 'No environment',
@@ -591,7 +592,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $this->assertSame($expectedValue, $answer);
     }
 
-    public function mixedKeysChoiceListAnswerProvider()
+    public function mixedKeysChoiceListAnswerProvider(): array
     {
         return [
             ['0', '0'],
@@ -606,7 +607,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
     /**
      * @dataProvider answerProvider
      */
-    public function testSelectChoiceFromChoiceList($providedAnswer, $expectedValue)
+    public function testSelectChoiceFromChoiceList(string $providedAnswer, string $expectedValue)
     {
         $possibleChoices = [
             'env_1' => 'My environment 1',
@@ -645,7 +646,7 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $dialog->ask($this->createStreamableInputInterfaceMock($this->getInputStream("My environment\n")), $this->createOutputInterface(), $question);
     }
 
-    public function answerProvider()
+    public function answerProvider(): array
     {
         return [
             ['env_1', 'env_1'],
@@ -795,7 +796,10 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $this->assertEquals(['AcmeDemoBundle', 'AsseticBundle'], $dialog->ask($this->createStreamableInputInterfaceMock($inputStream), $this->createOutputInterface(), $question));
     }
 
-    protected function getInputStream($input)
+    /**
+     * @return resource
+     */
+    private function getInputStream(string $input)
     {
         $stream = fopen('php://memory', 'r+', false);
         fwrite($stream, $input);
@@ -804,12 +808,12 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         return $stream;
     }
 
-    protected function createOutputInterface()
+    private function createOutputInterface(): StreamOutput
     {
         return new StreamOutput(fopen('php://memory', 'r+', false));
     }
 
-    protected function createInputInterfaceMock($interactive = true)
+    private function createInputInterfaceMock(bool $interactive = true): InputInterface
     {
         $mock = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')->getMock();
         $mock->expects($this->any())

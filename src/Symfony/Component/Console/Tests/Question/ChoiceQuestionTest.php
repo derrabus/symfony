@@ -19,7 +19,7 @@ class ChoiceQuestionTest extends TestCase
     /**
      * @dataProvider selectUseCases
      */
-    public function testSelectUseCases($multiSelect, $answers, $expected, $message)
+    public function testSelectUseCases(bool $multiSelect, array $answers, $expected, string $message)
     {
         $question = new ChoiceQuestion('A question', [
             'First response',
@@ -38,7 +38,7 @@ class ChoiceQuestionTest extends TestCase
         }
     }
 
-    public function selectUseCases()
+    public function selectUseCases(): array
     {
         return [
             [

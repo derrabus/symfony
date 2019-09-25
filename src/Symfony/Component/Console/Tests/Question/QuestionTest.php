@@ -25,7 +25,7 @@ class QuestionTest extends TestCase
         $this->question = new Question('Test question');
     }
 
-    public function providerTrueFalse()
+    public function providerTrueFalse(): array
     {
         return [[true], [false]];
     }
@@ -105,7 +105,7 @@ class QuestionTest extends TestCase
         self::assertTrue($this->question->isHiddenFallback());
     }
 
-    public function providerGetSetAutocompleterValues()
+    public function providerGetSetAutocompleterValues(): array
     {
         return [
             'array' => [
@@ -127,7 +127,7 @@ class QuestionTest extends TestCase
     /**
      * @dataProvider providerGetSetAutocompleterValues
      */
-    public function testGetSetAutocompleterValues($values, $expectValues)
+    public function testGetSetAutocompleterValues(?iterable $values, ?array $expectValues)
     {
         $this->question->setAutocompleterValues($values);
         self::assertSame(
@@ -136,7 +136,7 @@ class QuestionTest extends TestCase
         );
     }
 
-    public function providerSetAutocompleterValuesInvalid()
+    public function providerSetAutocompleterValuesInvalid(): array
     {
         return [
             ['Potato'],
@@ -233,7 +233,7 @@ class QuestionTest extends TestCase
         $this->assertNull($exception);
     }
 
-    public function providerGetSetValidator()
+    public function providerGetSetValidator(): array
     {
         return [
             [function ($input) { return $input; }],
@@ -244,7 +244,7 @@ class QuestionTest extends TestCase
     /**
      * @dataProvider providerGetSetValidator
      */
-    public function testGetSetValidator($callback)
+    public function testGetSetValidator(?callable $callback)
     {
         $this->question->setValidator($callback);
         self::assertSame($callback, $this->question->getValidator());
@@ -255,7 +255,7 @@ class QuestionTest extends TestCase
         self::assertNull($this->question->getValidator());
     }
 
-    public function providerGetSetMaxAttempts()
+    public function providerGetSetMaxAttempts(): array
     {
         return [[1], [5], [null]];
     }
@@ -263,13 +263,13 @@ class QuestionTest extends TestCase
     /**
      * @dataProvider providerGetSetMaxAttempts
      */
-    public function testGetSetMaxAttempts($attempts)
+    public function testGetSetMaxAttempts(?int $attempts)
     {
         $this->question->setMaxAttempts($attempts);
         self::assertSame($attempts, $this->question->getMaxAttempts());
     }
 
-    public function providerSetMaxAttemptsInvalid()
+    public function providerSetMaxAttemptsInvalid(): array
     {
         return [['Potato'], [0], [-1]];
     }

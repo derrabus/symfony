@@ -46,7 +46,7 @@ class SymfonyStyleTest extends TestCase
     /**
      * @dataProvider inputCommandToOutputFilesProvider
      */
-    public function testOutputs($inputCommandFilepath, $outputFilepath)
+    public function testOutputs(string $inputCommandFilepath, string $outputFilepath)
     {
         $code = require $inputCommandFilepath;
         $this->command->setCode($code);
@@ -57,7 +57,7 @@ class SymfonyStyleTest extends TestCase
     /**
      * @dataProvider inputInteractiveCommandToOutputFilesProvider
      */
-    public function testInteractiveOutputs($inputCommandFilepath, $outputFilepath)
+    public function testInteractiveOutputs(string $inputCommandFilepath, string $outputFilepath)
     {
         $code = require $inputCommandFilepath;
         $this->command->setCode($code);
@@ -65,14 +65,14 @@ class SymfonyStyleTest extends TestCase
         $this->assertStringEqualsFile($outputFilepath, $this->tester->getDisplay(true));
     }
 
-    public function inputInteractiveCommandToOutputFilesProvider()
+    public function inputInteractiveCommandToOutputFilesProvider(): array
     {
         $baseDir = __DIR__.'/../Fixtures/Style/SymfonyStyle';
 
         return array_map(null, glob($baseDir.'/command/interactive_command_*.php'), glob($baseDir.'/output/interactive_output_*.txt'));
     }
 
-    public function inputCommandToOutputFilesProvider()
+    public function inputCommandToOutputFilesProvider(): array
     {
         $baseDir = __DIR__.'/../Fixtures/Style/SymfonyStyle';
 

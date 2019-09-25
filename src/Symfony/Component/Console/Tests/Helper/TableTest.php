@@ -38,7 +38,7 @@ class TableTest extends TestCase
     /**
      * @dataProvider renderProvider
      */
-    public function testRender($headers, $rows, $style, $expected, $decorated = false)
+    public function testRender(array $headers, array $rows, $style, string $expected, bool $decorated = false)
     {
         $table = new Table($output = $this->getOutputStream($decorated));
         $table
@@ -54,7 +54,7 @@ class TableTest extends TestCase
     /**
      * @dataProvider renderProvider
      */
-    public function testRenderAddRows($headers, $rows, $style, $expected, $decorated = false)
+    public function testRenderAddRows(array $headers, array $rows, $style, string $expected, bool $decorated = false)
     {
         $table = new Table($output = $this->getOutputStream($decorated));
         $table
@@ -70,7 +70,7 @@ class TableTest extends TestCase
     /**
      * @dataProvider renderProvider
      */
-    public function testRenderAddRowsOneByOne($headers, $rows, $style, $expected, $decorated = false)
+    public function testRenderAddRowsOneByOne(array $headers, array $rows, $style, string $expected, bool $decorated = false)
     {
         $table = new Table($output = $this->getOutputStream($decorated));
         $table
@@ -85,7 +85,7 @@ class TableTest extends TestCase
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    public function renderProvider()
+    public function renderProvider(): array
     {
         $books = [
             ['99921-58-10-7', 'Divine Comedy', 'Dante Alighieri'],
@@ -1180,12 +1180,12 @@ EOTXT;
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    protected function getOutputStream($decorated = false)
+    private function getOutputStream(bool $decorated = false): StreamOutput
     {
         return new StreamOutput($this->stream, StreamOutput::VERBOSITY_NORMAL, $decorated);
     }
 
-    protected function getOutputContent(StreamOutput $output)
+    private function getOutputContent(StreamOutput $output): string
     {
         rewind($output->getStream());
 

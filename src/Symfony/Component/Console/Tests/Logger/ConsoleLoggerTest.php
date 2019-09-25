@@ -61,7 +61,7 @@ class ConsoleLoggerTest extends TestCase
     /**
      * @dataProvider provideOutputMappingParams
      */
-    public function testOutputMapping($logLevel, $outputVerbosity, $isOutput, $addVerbosityLevelMap = [])
+    public function testOutputMapping(string $logLevel, int $outputVerbosity, bool $isOutput, array $addVerbosityLevelMap = [])
     {
         $out = new BufferedOutput($outputVerbosity);
         $logger = new ConsoleLogger($out, $addVerbosityLevelMap);
@@ -70,7 +70,7 @@ class ConsoleLoggerTest extends TestCase
         $this->assertEquals($isOutput ? "[$logLevel] foo bar".PHP_EOL : '', $logs);
     }
 
-    public function provideOutputMappingParams()
+    public function provideOutputMappingParams(): array
     {
         $quietMap = [LogLevel::EMERGENCY => OutputInterface::VERBOSITY_QUIET];
 
@@ -111,7 +111,7 @@ class ConsoleLoggerTest extends TestCase
     /**
      * @dataProvider provideLevelsAndMessages
      */
-    public function testLogsAtAllLevels($level, $message)
+    public function testLogsAtAllLevels(string $level, string $message)
     {
         $logger = $this->getLogger();
         $logger->{$level}($message, ['user' => 'Bob']);
@@ -124,7 +124,7 @@ class ConsoleLoggerTest extends TestCase
         $this->assertEquals($expected, $this->getLogs());
     }
 
-    public function provideLevelsAndMessages()
+    public function provideLevelsAndMessages(): array
     {
         return [
             LogLevel::EMERGENCY => [LogLevel::EMERGENCY, 'message of level emergency with context: {user}'],
