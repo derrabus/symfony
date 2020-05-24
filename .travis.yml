@@ -30,7 +30,7 @@ matrix:
         - php: 7.4
           env: deps=low
         - php: nightly
-          services: [memcached]
+          services: [memcached, mongodb]
     fast_finish: true
 
 cache:
@@ -210,6 +210,7 @@ before_install:
           elif [[ $PHP = nightly ]]; then
               tfold ext.memcached tpecl memcached-3.1.5 memcached.so $INI
               tfold ext.apcu install_apcu_dev 9c36db45100d4d27ec33072f4be90f1f5a0108b7 $INI
+              tfold ext.mongodb tpecl mongodb-1.8.0beta1 mongodb.so $INI
           fi
       done
 
