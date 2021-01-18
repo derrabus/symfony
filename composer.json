@@ -112,7 +112,7 @@
         "async-aws/sqs": "^1.0",
         "cache/integration-tests": "dev-master",
         "composer/package-versions-deprecated": "^1.8",
-        "doctrine/annotations": "^1.10.4",
+        "doctrine/annotations": "^1.12",
         "doctrine/cache": "~1.6",
         "doctrine/collections": "~1.0",
         "doctrine/data-fixtures": "^1.1",

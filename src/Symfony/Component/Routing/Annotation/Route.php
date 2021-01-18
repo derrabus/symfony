@@ -15,6 +15,7 @@ namespace Symfony\Component\Routing\Annotation;
  * Annotation class for @Route().
  *
  * @Annotation
+ * @NamedArgumentConstructor
  * @Target({"CLASS", "METHOD"})
  *
  * @author Fabien Potencier <fabien@symfony.com>
@@ -36,7 +37,7 @@ class Route
     private $priority;
 
     /**
-     * @param array|string      $data         data array managed by the Doctrine Annotations library or the path
+     * @param array|string      $value        data array managed by the Doctrine Annotations library or the path
      * @param array|string|null $path
      * @param string[]          $requirements
      * @param string[]          $methods
@@ -45,7 +46,7 @@ class Route
      * @throws \BadMethodCallException
      */
     public function __construct(
-        $data = [],
+        $value = [],
         $path = null,
         string $name = null,
         array $requirements = [],
@@ -61,10 +62,12 @@ class Route
         bool $utf8 = null,
         bool $stateless = null
     ) {
-        if (\is_string($data)) {
-            $data = ['path' => $data];
-        } elseif (!\is_array($data)) {
-            throw new \TypeError(sprintf('"%s": Argument $data is expected to be a string or array, got "%s".', __METHOD__, get_debug_type($data)));
+        if (\is_string($value)) {
+            $data = ['path' => $value];
+        } elseif (!\is_array($value)) {
+            throw new \TypeError(sprintf('"%s": Argument $value is expected to be a string or array, got "%s".', __METHOD__, get_debug_type($value)));
+        } else {
+            $data = $value;
         }
         if (null !== $path && !\is_string($path) && !\is_array($path)) {
             throw new \TypeError(sprintf('"%s": Argument $path is expected to be a string, array or null, got "%s".', __METHOD__, get_debug_type($path)));
