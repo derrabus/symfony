@@ -338,7 +338,7 @@ class IntegrationTest extends TestCase
             ->addTag('foo_bar', ['foo' => 'foo'])
         ;
         $container->register(IteratorConsumer::class)
-            ->setAutoconfigured(true)
+            ->setAutowired(true)
             ->setPublic(true)
         ;
 
@@ -391,7 +391,7 @@ class IntegrationTest extends TestCase
             ->addTag('foo_bar', ['foo' => 'foo'])
         ;
         $container->register(LocatorConsumer::class)
-            ->setAutoconfigured(true)
+            ->setAutowired(true)
             ->setPublic(true)
         ;
 
@@ -419,7 +419,7 @@ class IntegrationTest extends TestCase
             ->setPublic(true)
             ->setArguments([
                 (new Definition(LocatorConsumer::class))
-                    ->setAutoconfigured(true),
+                    ->setAutowired(true),
             ])
         ;
 
@@ -445,7 +445,7 @@ class IntegrationTest extends TestCase
         $container->register(LocatorConsumerFactory::class);
         $container->register(LocatorConsumer::class)
             ->setPublic(true)
-            ->setAutoconfigured(true)
+            ->setAutowired(true)
             ->setFactory(new Reference(LocatorConsumerFactory::class))
         ;
 
@@ -456,22 +456,6 @@ class IntegrationTest extends TestCase
 
         $locator = $s->getLocator();
         self::assertSame($container->get(FooTagClass::class), $locator->get('my_service'));
-    }
-
-    /**
-     * @requires PHP 8
-     */
-    public function testMultipleArgumentBindings()
-    {
-        $container = new ContainerBuilder();
-        $container->register(MultipleArgumentBindings::class)
-            ->setPublic(true)
-            ->setAutoconfigured(true)
-        ;
-
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Cannot autoconfigure argument "$collection": More than one autoconfigurable attribute found.');
-        $container->compile();
     }
 
     public function testTaggedServiceWithDefaultPriorityMethod()
