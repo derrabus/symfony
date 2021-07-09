@@ -30,9 +30,9 @@ namespace Symfony\Component\ExpressionLanguage;
  */
 class ExpressionFunction
 {
-    private $name;
-    private $compiler;
-    private $evaluator;
+    private string $name;
+    private \Closure $compiler;
+    private \Closure $evaluator;
 
     /**
      * @param string   $name      The function name
@@ -42,8 +42,8 @@ class ExpressionFunction
     public function __construct(string $name, callable $compiler, callable $evaluator)
     {
         $this->name = $name;
-        $this->compiler = $compiler;
-        $this->evaluator = $evaluator;
+        $this->compiler = $compiler instanceof \Closure ? $compiler : \Closure::fromCallable($compiler);
+        $this->evaluator = $evaluator instanceof \Closure ? $evaluator : \Closure::fromCallable($evaluator);
     }
 
     public function getName()
