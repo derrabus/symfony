@@ -89,6 +89,8 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function getLocale()
     {
