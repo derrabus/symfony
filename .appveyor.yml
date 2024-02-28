@@ -47,6 +47,7 @@ install:
     - copy /Y php.ini-max php.ini
     - cd c:\projects\symfony
     - appveyor DownloadFile https://getcomposer.org/download/latest-stable/composer.phar
+    - appveyor DownloadFile https://phar.phpunit.de/phpunit.phar
     - mkdir %APPDATA%\Composer && copy /Y .github\composer-config.json %APPDATA%\Composer\config.json
     - git config --global user.email ""
     - git config --global user.name "Symfony"
@@ -54,7 +55,6 @@ install:
     - php .github/build-packages.php HEAD^ %SYMFONY_VERSION% src\Symfony\Bridge\PhpUnit
     - SET COMPOSER_ROOT_VERSION=%SYMFONY_VERSION%.x-dev
     - php composer.phar update --no-progress --ansi
-    - php phpunit install
     - choco install memurai-developer
 
 test_script:
@@ -63,9 +63,9 @@ test_script:
     - copy /Y c:\php\php.ini-min c:\php\php.ini
     - IF %APPVEYOR_REPO_BRANCH:~-2% neq .x (rm -Rf src\Symfony\Bridge\PhpUnit)
     - mv src\Symfony\Component\HttpClient\phpunit.xml.dist src\Symfony\Component\HttpClient\phpunit.xml
-    - php phpunit src\Symfony --exclude-group tty,benchmark,intl-data,network,transient-on-windows || SET X=!errorlevel!
-    - php phpunit src\Symfony\Component\HttpClient || SET X=!errorlevel!
+    - php phpunit.phar src\Symfony --exclude-group tty --exclude-group benchmark --exclude-group intl-data --exclude-group network --exclude-group transient-on-windows || SET X=!errorlevel!
+    - php phpunit.phar src\Symfony\Component\HttpClient || SET X=!errorlevel!
     - copy /Y c:\php\php.ini-max c:\php\php.ini
-    - php phpunit src\Symfony --exclude-group tty,benchmark,intl-data,network,transient-on-windows || SET X=!errorlevel!
-    - php phpunit src\Symfony\Component\HttpClient || SET X=!errorlevel!
+    - php phpunit.phar src\Symfony --exclude-group tty --exclude-group benchmark --exclude-group intl-data --exclude-group network --exclude-group transient-on-windows || SET X=!errorlevel!
+    - php phpunit.phar src\Symfony\Component\HttpClient || SET X=!errorlevel!
     - exit %X%
