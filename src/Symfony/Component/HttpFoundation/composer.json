@@ -29,6 +29,7 @@
         "symfony/http-kernel": "^6.4|^7.0",
         "symfony/mime": "^6.4|^7.0",
         "symfony/expression-language": "^6.4|^7.0",
+        "symfony/phpunit-bridge": "^7.2",
         "symfony/rate-limiter": "^6.4|^7.0"
     },
     "conflict": {

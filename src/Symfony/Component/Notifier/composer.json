@@ -23,7 +23,8 @@
         "symfony/event-dispatcher-contracts": "^2.5|^3",
         "symfony/http-client-contracts": "^2.5|^3",
         "symfony/http-foundation": "^6.4|^7.0",
-        "symfony/messenger": "^6.4|^7.0"
+        "symfony/messenger": "^6.4|^7.0",
+        "symfony/phpunit-bridge": "^7.2"
     },
     "conflict": {
         "symfony/event-dispatcher": "<6.4",
