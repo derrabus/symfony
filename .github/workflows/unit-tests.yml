@@ -75,12 +75,7 @@ jobs:
 
           # Create local composer packages for each patched components and reference them in composer.json files when cross-testing components
           if [[ "${{ matrix.mode }}" = *-deps ]]; then
-            echo SYMFONY_DEPRECATIONS_HELPER=weak >> $GITHUB_ENV
-            cp composer.json composer.json.orig
-            echo -e '{\n"require":{'"$(grep phpunit-bridge composer.json)"'"php":"*"},"minimum-stability":"dev"}' > composer.json
             php .github/build-packages.php HEAD^ $SYMFONY_VERSION $(find src/Symfony -mindepth 2 -type f -name composer.json -printf '%h\n' | grep -v src/Symfony/Component/Emoji/Resources/bin)
-            mv composer.json composer.json.phpunit
-            mv composer.json.orig composer.json
           fi
 
           # For the highest branch, in high-deps mode, the version before it is checked out and tested with the locally patched components
@@ -100,7 +95,6 @@ jobs:
           echo SYMFONY_VERSION=$SYMFONY_VERSION >> $GITHUB_ENV
           echo COMPOSER_ROOT_VERSION=$SYMFONY_VERSION.x-dev >> $GITHUB_ENV
           echo SYMFONY_REQUIRE=">=$([ '${{ matrix.mode }}' = low-deps ] && echo 5.4 || echo $SYMFONY_VERSION)" >> $GITHUB_ENV
-          [[ "${{ matrix.mode }}" = *-deps ]] && mv composer.json.phpunit composer.json || true
 
       - name: Install dependencies
         run: |
