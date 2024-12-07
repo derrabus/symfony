@@ -30,4 +30,10 @@
             <directory>./vendor</directory>
         </exclude>
     </source>
+
+    <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension">
+            <parameter name="clock-mock-namespaces" value="Symfony\Bridge\Doctrine\Middleware\Debug,Symfony\Bridge\Doctrine\Middleware\IdleConnection" />
+        </bootstrap>
+    </extensions>
 </phpunit>
